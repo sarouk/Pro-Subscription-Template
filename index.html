@@ -1,0 +1,2748 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ناحیه کاربری</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z'/><path d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0'/></svg>">
+
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500&display=swap" as="style">
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" as="style">
+  <link rel="preload" href="https://unpkg.com/alpinejs@3.13.7/dist/cdn.min.js" as="script">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+  
+  <style>
+    :root {
+      --bs-body-font-family: "Vazirmatn", system-ui, -apple-system, sans-serif;
+      --bs-body-bg: #0a101f;
+      --my-gray: #131c36;
+      --my-dark-gray: #1c2649;
+      --my-alpha-gray: #2a3356;
+      --my-heading: #ffffff;
+      --my-content: #d4d8f0;
+      --btn-text-color: #ffffff;
+      --btn-hover-bg: #2a345e;
+      --backdrop-blur: blur(10px);
+      --username-icon-color: #4d7cfe;
+      --active-status-icon-color: #17c964;
+      --disabled-status-icon-color: #ff2d2d;
+      --duration-icon-color: #f5a524;
+      --traffic-icon-color: #8a63d2;
+      --sun-icon-color: #f5a524;
+      --moon-icon-color: #8a63d2;
+      --lang-icon-color: #4d7cfe;
+      --windows-icon-color: #4d7cfe;
+      --android-icon-color: #17c964;
+      --apple-icon-color: currentColor;
+      --success-feedback-color: #17c964;
+      --last-connection-icon-color: #ff4952;
+      --favorite-location-icon-color: #ffcf00;
+    }
+
+    :root[data-bs-theme="light"] {
+      --bs-body-bg: #f7faff;
+      --my-gray: #edf2ff;
+      --my-dark-gray: #e1e7fd;
+      --my-alpha-gray: #f3f6ff;
+      --my-heading: #0a1b45;
+      --my-content: #2c3e67;
+      --btn-text-color: #0a1b45;
+      --btn-hover-bg: #d8e1ff;
+      --backdrop-blur: blur(12px);
+    }
+
+    .my-block svg use[href="#person-circle"] {color: var(--username-icon-color);}
+    .my-block svg use[href="#check-circle"] {color: var(--active-status-icon-color);}
+    .my-block svg use[href="#x-circle"] {color: var(--disabled-status-icon-color);}
+    .my-block svg use[href="#clock"] {color: var(--duration-icon-color);}
+    .my-block svg use[href="#arrow-down-circle"] {color: var(--traffic-icon-color);}
+    .theme-toggle svg use[href="#sun"] {color: var(--sun-icon-color);}
+    .theme-toggle svg use[href="#moon"] {color: var(--moon-icon-color);}
+    .lang-toggle svg use[href="#translate"] {color: var(--lang-icon-color);}
+    .config-link-name svg use[href="#microsoft"] {color: var(--windows-icon-color);}
+    .config-link-name svg use[href="#android"] {color: var(--android-icon-color);}
+    .accordion-button svg use[href="#microsoft"] {color: var(--windows-icon-color);}
+    .accordion-button svg use[href="#android"] {color: var(--android-icon-color);}
+    .accordion-button svg use[href="#apple"] {color: var(--apple-icon-color);}
+    .my-block svg use[href="#clock-history-alt"] {color: var(--last-connection-icon-color);}
+    .my-block svg use[href="#globe-americas"] {color: var(--favorite-location-icon-color);}
+    [x-cloak] { display: none !important; }
+
+    body {
+      background-color: var(--bs-body-bg);
+      font-family: var(--bs-body-font-family);
+    }
+
+    .my-container {
+      max-width: 1024px;
+      padding: clamp(50px, 5vw, 75px) clamp(15px, 2.5vw, 25px);
+      margin: 0 auto;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .header-title-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-buttons-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-avatar {
+      width: 49.6px;
+      height: 49.6px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: var(--my-gray);
+      border: none;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+
+    [dir="ltr"] .user-avatar {
+      margin-left: 0;
+      margin-right: 1rem;
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--my-content);
+    }
+
+    .theme-toggle, .lang-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 49.6px;
+      height: 49.6px;
+      border-radius: 50px;
+      color: var(--my-heading);
+      padding: 0;
+    }
+
+    [data-bs-theme="dark"] .theme-toggle {
+      background-color: #f5a52430;
+      border: none;
+    }
+
+    [data-bs-theme="light"] .theme-toggle {
+      background-color: #9353d230;
+      border: none;
+    }
+
+    .lang-toggle {
+      background-color: #006fee30;
+      border: none;
+    }
+    
+    
+    .theme-toggle:focus, .lang-toggle:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .theme-toggle svg, .lang-toggle svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .my-text-heading { 
+        color: var(--my-heading);
+    }
+
+    .my-text-content { 
+        color: var(--my-content); 
+        font-size: 0.9rem;
+        font-weight: 400;
+        line-height: 1.6;
+        letter-spacing: normal;
+    }
+
+    .my-block,
+    .my-block-big {
+      border-radius: 0.875rem;
+      background-color: var(--my-gray);
+      padding: 1.5rem;
+      height: 100%;
+      border: none;
+    }
+
+    .my-block-big {
+      padding: 1.5rem;
+    }
+
+    .traffic-value {
+      font-family: inherit;
+      direction: ltr;
+      display: inline-block;
+      text-align: left;
+      width: 100%;
+    }
+
+    .bi {
+      fill: currentColor;
+      width: 22px;
+      height: 20px;
+    }
+
+    [dir="rtl"] .my-block .bi {
+      margin-left: 0.5rem;
+      margin-right: 0;
+      margin-bottom: 0.15rem;
+    }
+
+    [dir="ltr"] .my-block .bi {
+      margin-right: 0.5rem;
+      margin-left: 0;
+      margin-bottom: 0.25rem;
+    }
+
+    [dir="ltr"] h3.my-text-heading .bi {
+      transform: translateY(-.2rem);
+    }
+
+    [dir="rtl"] h3.my-text-heading .bi {
+      transform: translateY(-.075rem);
+    }
+
+    .connection-buttons {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .my-btn-outline {
+      --bs-btn-color: var(--btn-text-color);
+      border: none;
+      --bs-btn-hover-color: var(--btn-text-color);
+      --bs-btn-hover-bg: var(--btn-hover-bg);
+      --bs-btn-active-color: var (--btn-text-color);
+      --bs-btn-active-bg: var(--btn-hover-bg);
+      --bs-border-radius: 0.875rem;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--my-gray);
+    }
+
+    [dir="ltr"] .my-btn-outline span {
+      vertical-align: -0.1em;    
+    }
+
+    [dir="ltr"] .config-link-copy-btn span {
+      transform: translateY(0.1rem);
+    }
+
+    .modal.my-modal {
+      --bs-modal-bg: var(--my-gray);
+      --bs-modal-border-radius: 0.875rem;
+      --bs-modal-header-padding: 2.5rem 1.5rem 0;
+      --bs-modal-header-border-width: 0;
+      backdrop-filter: var(--backdrop-blur);
+      border: none;
+    }
+
+    .modal-body p.my-text-content {
+      margin-bottom: 1rem;
+      padding: 0 0.5rem;
+    }
+
+    .config-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      background-color: var(--my-dark-gray);
+      border-radius: 0.875rem;
+    }
+    
+    .config-link-name {
+      font-weight: 500;
+      color: var(--my-heading);
+      flex-grow: 1;
+      min-width: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .config-link-name span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
+      min-width: 0;
+      flex: 1 1 0%;
+    }
+
+    .config-link-buttons {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .config-link-qr-btn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: 0.875rem;
+      background-color: var(--bs-body-bg);
+      color: var(--btn-text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: none;
+    }
+
+    .config-link-qr-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .config-link-qr-btn:hover {
+      background-color: var(--my-gray);
+    }
+
+    .config-link-copy-btn,
+    .download-button,
+    .settings-button {
+      height: 40px;
+      box-sizing: border-box;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: background-color 0.2s ease;
+      min-width: 100px;
+      padding: 0.5rem 1rem;
+      border-radius: 0.875rem;
+      background-color: var(--bs-body-bg);
+      color: var(--btn-text-color);
+      border: none;
+      flex-shrink: 0;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .config-link-copy-btn:hover,
+    .download-button:hover,
+    .settings-button:hover {
+      background-color: var(--my-gray);
+      color: var(--btn-text-color);
+    }
+
+    .config-link-copy-btn.copied,
+    .download-button.copied,
+    .settings-button.copied {
+      background-color: var(--success-feedback-color) !important;
+      color: white !important;
+    }
+
+    .download-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    [dir="ltr"] .download-button span,
+     .settings-button span,
+     .config-link-name span {
+      transform: translateY(0.1rem);
+    }
+
+    [dir="rtl"] .settings-button.copied span {
+      transform: translateY(-0.1rem);
+    }
+
+    .equal-height-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .equal-height-container .my-block-big {
+      flex: 1;
+    }
+
+    .my-step-counter {
+      display: block;
+      color: var(--my-heading);
+      font-weight: 500;
+      font-size: 2.5rem;
+      user-select: none;
+      text-align: right;
+    }
+
+    [dir="ltr"] .my-step-counter {
+      text-align: left;
+    }
+
+    .my-step-counter::after {
+      content: counter(step-counter);
+      counter-increment: step-counter;
+    }
+
+    .my-tab-pane {
+      counter-reset: step-counter;
+    }
+
+    .qr-modal {
+      --bs-modal-width: min(350px, 90%);
+      backdrop-filter: var(--backdrop-blur);
+    }
+
+    .qr-modal .modal-dialog {
+      width: 350px;
+      margin: 1rem auto;
+    }
+
+    .qr-modal .modal-content {
+      background-color: var(--my-alpha-gray);
+      border-radius: 0.875rem;
+      padding: 1rem 1rem 1.5rem;
+      border: none;
+    }
+
+    .qr-modal .modal-header {
+      border-bottom: none;
+      padding: 1rem;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .qr-modal .modal-header .my-text-heading {
+      font-size: 1.1rem;
+      margin: 0;
+      text-align: right;
+      flex-grow: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-inline-end: 1rem;
+    }
+
+    [dir="ltr"] .qr-modal .modal-header .my-text-heading {
+      text-align: left;
+      padding-inline-end: 0;
+      padding-inline-start: 0;
+    }
+
+    .qr-modal .modal-body {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .qr-modal #qr-canvas {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 0.875rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .qr-modal #qr-canvas img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 2rem;
+      inset-inline-end: 1.5rem;
+      min-width: 60px;
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.875rem;
+      background-color: #ff2d2d;
+      color: white;
+      border: none;
+      font-size: 0.875rem;
+      border: none;
+    }
+
+    .modal-close-btn:hover {
+      background-color: #b12121;
+    }
+
+    .modal-close-btn:focus, .modal-close-btn:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .qr-modal .modal-close-btn {
+      position: static;
+      flex-shrink: 0;
+    }
+
+    .guide-mode-toggle {
+      margin: 0 auto;
+      display: flex;
+    }
+    
+    .guide-mode-btn {
+      flex: 1 0 50% !important;
+      background-color: var(--my-gray) !important;
+      color: var(--my-content) !important;
+      border: none !important;
+      padding: 0.75rem 0 !important;
+      transition: all 0.2s ease !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      min-width: 0 !important;
+    }
+    
+    .guide-mode-btn:first-child {
+      border-radius: 0 0.875rem 0.875rem 0 !important;
+    }
+    
+    .guide-mode-btn:last-child {
+      border-radius: 0.875rem 0 0 0.875rem !important;
+    }
+    
+    [dir="ltr"] .guide-mode-btn:first-child {
+      border-radius: 0.875rem 0 0 0.875rem !important;
+    }
+
+    [dir="ltr"] .guide-mode-btn:last-child {
+      border-radius: 0 0.875rem 0.875rem 0 !important;
+    }
+    
+    .guide-mode-btn.active {
+      background-color: var(--active-status-icon-color) !important;
+      color: white !important;
+      font-weight: 500 !important;
+    }
+    
+    .guide-mode-btn:hover:not(.active) {
+      background-color: var(--my-dark-gray) !important;
+    }
+
+    .accordion {
+      margin-bottom: 1rem;
+    }
+    
+    .accordion-item {
+      border: none !important;
+      margin-bottom: 1.5rem;
+      border-radius: 0.875rem !important;
+      overflow: hidden;
+    }
+    
+    .accordion-button {
+      padding: 1rem!important;
+      background-color: var(--my-dark-gray) !important;
+      color: var(--my-heading) !important;
+      font-weight: 500 !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    
+    .accordion-button:not(.collapsed) {
+      background-color: var(--my-alpha-gray) !important;
+      color: var(--my-heading) !important;
+    }
+    
+    .accordion-button::after {
+      transition: all 0.2s ease;
+      color: var(--my-content) !important;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-position: center;
+      background-color: var(--bs-body-bg);
+    }
+
+    .accordion-button::after {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23ffffff' opacity='0'/%3E%3Cpath fill-rule='evenodd' fill='%23ffffff' d='M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z'/%3E%3C/svg%3E") !important;
+      background-size: 24px 24px !important;
+      background-repeat: no-repeat !important;
+      background-position: center !important;
+    }
+
+    .accordion-button:not(.collapsed)::after {
+      transform: rotate(180deg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23ffffff' opacity='0'/%3E%3Cpath fill-rule='evenodd' fill='%23ffffff' d='M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z'/%3E%3C/svg%3E") !important;
+    }
+
+    [data-bs-theme="light"] .accordion-button::after {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23000000' opacity='0'/%3E%3Cpath fill-rule='evenodd' fill='%23000000' d='M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z'/%3E%3C/svg%3E") !important;
+      background-size: 24px 24px !important;
+      background-repeat: no-repeat !important;
+      background-position: center !important;
+    }
+
+    [data-bs-theme="light"] .accordion-button:not(.collapsed)::after {
+      transform: rotate(180deg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23000000' opacity='0'/%3E%3Cpath fill-rule='evenodd' fill='%23000000' d='M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z'/%3E%3C/svg%3E") !important;
+    }
+    
+    .accordion-body {
+      padding: 1rem 1rem 0.5rem !important;
+      background-color: var(--my-alpha-gray) !important;
+    }
+
+    [dir="ltr"] .accordion-button .bi.me-2 {
+      margin-right: 0.5rem !important;
+      margin-left: 0 !important;
+    }
+
+    [dir="rtl"] .accordion-button .bi.me-2 {
+      margin-left: 0.5rem !important;
+      margin-right: 0 !important;
+    }
+
+    .accordion-button > span {
+      flex: 1;
+      text-align: start;
+      margin: 0.5rem;      
+    }
+
+    @media (max-width: 767.98px) {
+      .my-container {
+        padding: 50px 15px;
+      }
+      
+      .my-block-big {
+        padding: 1.25rem 1.5rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .qr-modal .modal-dialog {
+        width: 90%;
+        margin: 1rem auto;
+      }
+    }
+
+    .os-recommend-border {
+      animation: os-border-blink 3s infinite cubic-bezier(.5,0,1,1);
+    }
+    .os-recommend-accordion {
+      border-radius: 0.875rem !important;
+      animation: os-border-blink 3s infinite cubic-bezier(.5,0,1,1);
+    }
+    @keyframes os-border-blink {
+      0% { box-shadow: 0 0 0 1.5px var(--active-status-icon-color, #17c96480); border-color: var(--active-status-icon-color); }
+      50% { box-shadow: 0 0 0 1.5px rgba(23, 201, 100, 0); border-color: #17c964; }
+      100% { box-shadow: 0 0 0 1.5px var(--active-status-icon-color, #17c96480); border-color: var(--active-status-icon-color); }
+    }
+
+    .os-detect-indicator {
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      margin-inline-end: 0.5rem;
+      margin-inline-start: 0.1rem;
+      vertical-align: middle;
+      animation: os-blink 2s infinite alternate;
+    }
+    
+    [dir="ltr"] .os-detect-indicator {
+    transform: translateY(-0.1rem);
+    }
+
+    @keyframes os-blink {
+      0% { box-shadow: 0 0 0 1.5px var(--active-status-icon-color, #17c96480); border-color: var(--active-status-icon-color); }
+      50% { box-shadow: 0 0 0 1.5px rgba(23, 201, 100, 0); border-color: #17c964; }
+      100% { box-shadow: 0 0 0 1.5px var(--active-status-icon-color, #17c96480); border-color: var(--active-status-icon-color); }
+    }
+    .os-detect-indicator.red {
+      background: var(--last-connection-icon-color, #ff4952);
+      animation-name: os-blink-red;
+    }
+    .os-detect-indicator.green {
+      background: var(--success-feedback-color, #17c964);
+      animation-name: os-blink-green;
+    }
+    @keyframes os-blink-green {
+      0% { box-shadow: 0 0 0 1.5px var(--active-status-icon-color, #17c96480); border-color: var(--active-status-icon-color); }
+      50% { box-shadow: 0 0 0 1.5px rgba(23, 201, 100, 0); border-color: #17c964; }
+      100% { box-shadow: 0 0 0 1.5px var(--active-status-icon-color, #17c96480); border-color: var (--active-status-icon-color); }
+    }
+    @keyframes os-blink-red {
+      0% { box-shadow: 0 0 0 1.5px var(--last-connection-icon-color, #ff495296); border-color: var(--last-connection-icon-color); }
+      50% { box-shadow: 0 0 0 1.5px rgba(23, 201, 100, 0); border-color: #ff4952; }
+      100% { box-shadow: 0 0 0 1.5px var(--last-connection-icon-color, #ff49527f); border-color: var(--last-connection-icon-color); }
+    }
+
+    .main-texts {
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--my-heading);
+      line-height: 1.5;
+    }
+
+    .box-texts {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--my-heading);
+      margin-bottom: 1rem;
+    }
+
+    .head-texts {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var (--my-heading);
+    }
+
+    .sub-texts {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--my-content);
+      line-height: 1.5;
+    }
+
+    .app-texts {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--my-heading);
+      line-height: 1.5;
+    }
+
+    .qr-modal .modal-close-btn:focus, .qr-modal .modal-close-btn:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .modal .config-link-name {
+      font-weight: 500;
+      color: var(--my-heading);
+      flex-grow: 1;
+      min-width: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .modal .config-link-name span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
+      min-width: 0;
+      flex: 1 1 0%;
+    }
+    .qr-modal .modal-header .my-text-heading,
+    .qr-modal .modal-header .app-texts {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+      display: block;
+    }
+
+    .advanced-mode-box {
+      padding: 1.5rem;
+    }
+    .advanced-mode-box .head-texts {
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .my-block .order-1 {
+      margin-right: 0;
+    }
+    
+    .my-block .order-1 .box-texts {
+      margin-bottom: 0;
+      margin-right: 0;
+      margin-left: 0.5rem;
+    }
+    
+    [dir="ltr"] .my-block .order-1 .box-texts {
+      margin-left: 0;
+      margin-right: 0.5rem;
+    }
+    
+    .my-block .order-2 {
+      text-align: right;
+      margin-right: 1rem;
+      color: var(--my-content);
+    }
+    
+    [dir="ltr"] .my-block .order-2 {
+      text-align: left;
+      margin-right: 0;
+      margin-left: 1rem;
+    }
+    
+    .box-value {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--my-content) !important;
+      margin-bottom: 0;
+    }
+    
+    @media (max-width: 767.98px) {
+      .my-block .order-1, .my-block .order-2 {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://unpkg.com/alpinejs@3.13.7/dist/cdn.min.js" defer></script>
+  
+<script>
+
+  async function loadQRCode() {
+    if (window.QRCode) {
+      return Promise.resolve();
+    }
+    
+    const QR_CODE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+    
+    return new Promise((resolve, reject) => {
+      try {
+        const script = document.createElement('script');
+        script.src = QR_CODE_URL;
+        
+        script.onload = () => {
+          console.log('کتابخانه QR Code با موفقیت بارگذاری شد');
+          resolve();
+        };
+        
+        script.onerror = (error) => {
+          console.error('خطا در بارگذاری کتابخانه QR Code:', error);
+          reject(new Error('Failed to load QR Code library'));
+        };
+        
+        document.head.appendChild(script);
+      } catch (error) {
+        console.error('خطای غیرمنتظره در بارگذاری کتابخانه QR Code:', error);
+        reject(error);
+      }
+    });
+  }
+
+  function handleButtonFeedback(button, originalContent, feedbackContent, timeout = 2000) {
+    const originalHTML = button.innerHTML;
+    button.innerHTML = feedbackContent;
+    button.classList.add('copied');
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.classList.remove('copied');
+    }, timeout);
+  }
+
+
+  document.addEventListener('alpine:init', () => {
+    window.app = {
+      darkMode: true,
+      currentLang: 'fa',
+      avatarUrl: 'https://i.postimg.cc/jdrjCggH/MrClock.jpg',
+      guideMode: 'easy',
+      advancedContentLoaded: false,
+      subscription_url: '{{ user.subscription_url }}',
+      
+      translations: {
+        fa: {
+          subscriptionInfo: 'صفحه کاربری',
+          username: 'نام کاربری',
+          status: 'وضعیت',
+          duration: 'مدت زمان',
+          traffic: 'ترافیک',
+          anonymous: 'ناشناس',
+          active: 'فعال',
+          limited: 'محدود',
+          expired: 'منقضی‌شده',
+          disabled: 'غیرفعال',
+          unlimited: 'نامحدود',
+          telegramSupport: 'پشتیبانی',
+          showConfigs: 'کانفیگ‌ها',
+          connectionGuide: 'راهنمای اتصال',
+          configLinks: 'لینک‌ کانفیگ ها',
+          configLinksDesc: 'برای استفاده از کانفیگ های خود در سایر اپلیکیشن‌ها می‌توانید از لینک‌های زیر استفاده کنید.',
+          subscriptionLink: 'لینک اشتراک',
+          close: 'خروج',
+          copy: 'کپی',
+          copied: 'کپی شد',
+          vMessConfig: 'کانفیگ VMESS',
+          vLessConfig: 'کانفیگ VLESS',
+          trojanConfig: 'کانفیگ Trojan',
+          shadowsocksConfig: 'کانفیگ Shadowsocks',
+          configLink: 'لینک کانفیگ',
+          downloadApps: 'دانلود برنامه‌ها',
+          downloadAppsDesc: 'با توجه به سیستم عامل خود برنامه مورد نظر را دانلود کنید',
+          hiddifyWindows: 'هیدیفای ویندوز',
+          hiddifyAndroid: 'هیدیفای اندروید',
+          hiddifyApple: 'هیدیفای آیفون',
+          singboxAndroid: 'سینگ‌ باکس اندروید',
+          singboxApple: 'سینگ‌ باکس آیفون',
+          v2rayNGAndroid: 'وی2ری ان‌جی اندروید',
+          addSubscription: 'افزودن اشتراک',
+          addSubscriptionDesc: 'با توجه به برنامه ای که نصب کرده اید روی دکمه مربوط به آن کلیک کنید',
+          hiddifySettings: 'هیدیفای',
+          singboxSettings: 'سینگ باکس',
+          connectAndUse: 'اتصال و استفاده',
+          connectAndUseDesc: 'در برنامه هیدیفای روی دکمه CONNECT و در سینگ باکس روی ENABLE کلیک کنید. پیشنهاد می شود روزانه لینک اشتراک خود را از داخل اپلیکیشن دانلود شده آپدیت کنید',
+          qrCode: 'کد QR',
+          download: 'دانلود',
+          start: 'شروع',
+          settings: 'تنظیمات',
+          enter: 'ورود',
+          easyMode: 'آسان',
+          advancedMode: 'پیشرفته',
+          windowsApps: 'برنامه‌های ویندوز',
+          androidApps: 'برنامه‌های اندروید',
+          appleApps: 'برنامه‌های آیفون',
+          macApps: 'برنامه‌های مک',
+          windowsSettings: 'تنظیمات ویندوز',
+          androidSettings: 'تنظیمات اندروید',
+          appleSettings: 'تنظیمات آیفون',
+          macSettings: 'تنظیمات مک',
+          last_connection: 'اتصال آخر',
+          favorite_location: 'محبوبترین',
+          loading: 'در حال بارگذاری...',
+          no_usage_data: 'اطلاعات موجود نیست',
+          less_than_minute: 'حدود یک دقیقه پیش',
+          minute: 'دقیقه',
+          hour: 'ساعت',
+          day: 'روز',
+          ago: 'پیش',
+          unknown: 'نامشخص',
+          remaining_time: 'زمان باقیمانده',
+          remaining_traffic: 'ترافیک باقیمانده',
+          days_remaining: 'روز باقیمانده'
+        },
+        en: {
+          subscriptionInfo: 'Subscription Page',
+          username: 'Username',
+          status: 'Status',
+          duration: 'Duration',
+          traffic: 'Traffic',
+          anonymous: 'Anonymous',
+          active: 'Active',
+          limited: 'Limited',
+          expired: 'Expired',
+          disabled: 'Disabled',
+          unlimited: 'Unlimited',
+          telegramSupport: 'Support',
+          showConfigs: 'Configs',
+          connectionGuide: 'Connection Guide',
+          configLinks: 'Config Links',
+          configLinksDesc: 'You can use the following links to use your configs in other applications.',
+          subscriptionLink: 'Subscription Link',
+          close: 'Close',
+          copy: 'Copy',
+          copied: 'Copied',
+          vMessConfig: 'VMESS Config',
+          vLessConfig: 'VLESS Config',
+          trojanConfig: 'Trojan Config',
+          shadowsocksConfig: 'Shadowsocks Config',
+          configLink: 'Config Link',
+          downloadApps: 'Download Apps',
+          downloadAppsDesc: 'Download the appropriate app for your operating system',
+          hiddifyWindows: 'Hiddify Windows',
+          hiddifyAndroid: 'Hiddify Android',
+          hiddifyApple: 'Hiddify iPhone',
+          singboxAndroid: 'Sing-box Android',
+          singboxApple: 'Sing-box iPhone',
+          addSubscription: 'Add Subscription',
+          addSubscriptionDesc: 'Click on the relevant button for the app you have installed',
+          hiddifySettings: 'Hiddify',
+          singboxSettings: 'Sing-box',
+          connectAndUse: 'Connect and Use',
+          connectAndUseDesc: 'Click CONNECT in Hiddify app or ENABLE in Sing-box. It is recommended to update your subscription link daily from within the app.',
+          qrCode: 'QR Code',
+          download: 'Download',
+          start: 'Start',
+          settings: 'Settings',
+          enter: 'Enter',
+          easyMode: 'Easy',
+          advancedMode: 'Advanced',
+          windowsApps: 'Windows Apps',
+          androidApps: 'Android Apps',
+          appleApps: 'iPhone Apps',
+          macApps: 'Mac Apps',
+          windowsSettings: 'Windows Settings',
+          androidSettings: 'Android Settings',
+          appleSettings: 'iPhone Settings',
+          macSettings: 'Mac Settings',
+          last_connection: 'Last Use',
+          favorite_location: 'Favorite',
+          loading: 'Loading...',
+          no_usage_data: 'No data available',
+          less_than_minute: 'About a minute ago',
+          minute: 'minute',
+          hour: 'hour',
+          day: 'day',
+          ago: 'ago',
+          unknown: 'Unknown',
+          remaining_time: 'Remaining Time',
+          remaining_traffic: 'Remaining Traffic',
+          days_remaining: 'days remaining'
+        }
+      },
+
+
+      async getUsageData() {
+        try {
+          if (!this.subscription_url) {
+            console.error('آدرس اشتراک تعریف نشده است');
+            return [];
+          }
+          
+          const usageUrl = `${this.subscription_url}/usage`;
+          console.log('درخواست دریافت داده مصرف:', usageUrl);
+          
+          const response = await fetch(usageUrl);
+          if (!response.ok) {
+            throw new Error(`خطا در دریافت اطلاعات مصرف: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          console.log('داده‌های دریافتی:', data);
+          
+          return data.usages || [];
+        } catch (error) {
+          console.error('خطا در بازیابی داده‌های مصرف:', error);
+          return [];
+        }
+      },
+
+      findMostUsedNode(usages) {
+        if (!Array.isArray(usages) || usages.length === 0) return null;
+        
+        return usages.reduce((max, node) => {
+          const current = this.parseTraffic(node?.used_traffic);
+          const maxTraffic = this.parseTraffic(max?.used_traffic);
+          return current > maxTraffic ? node : max;
+        }, usages[0]);
+      },
+
+      parseTraffic(traffic) {
+        if (typeof traffic === 'number') {
+          return traffic;
+        }
+        
+        if (typeof traffic === 'string') {
+          const match = traffic.match(/([\d.]+)\s*(GB|MB|TB)/i);
+          
+          if (match) {
+            const value = parseFloat(match[1]);
+            const unit = match[2].toUpperCase();
+            
+            const BYTES_IN_KB = 1024;
+            const BYTES_IN_MB = BYTES_IN_KB * 1024;
+            const BYTES_IN_GB = BYTES_IN_MB * 1024;
+            const BYTES_IN_TB = BYTES_IN_GB * 1024;
+            
+            switch (unit) {
+              case 'TB': return value * BYTES_IN_TB;
+              case 'GB': return value * BYTES_IN_GB;
+              case 'MB': return value * BYTES_IN_MB;
+              default: return value;
+            }
+          }
+        }
+        
+        return 0;
+      },
+
+
+      async updateFavoriteLocation() {
+        try {
+          const usages = await this.getUsageData();
+          console.log('داده‌های مصرف دریافت شده:', usages);
+          
+          if (!Array.isArray(usages) || usages.length === 0) {
+            console.warn('هیچ داده مصرفی یافت نشد');
+            return { name: '', flag: '' };
+          }
+          
+          const topNode = this.findMostUsedNode(usages);
+          console.log('نود پرمصرف:', topNode);
+          
+          if (!topNode) return { name: '', flag: '' };
+          
+          const name = topNode?.node_name || topNode?.server || this.translations[this.currentLang].unknown;
+          const flagMatch = name.match(/(🇦🇪|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇺🇸|🇨🇦|🇯🇵|🇹🇷|🇮🇷|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇧🇪|🇦🇺|🇫🇮|🇷🇺|🇧🇷|🇸🇬|🇲🇾|🇮🇳)/);
+          const flag = flagMatch ? flagMatch[1] : '';
+          
+          return { 
+            name: name.replace(flag, '').trim(),
+            flag: flag
+          };
+        } catch (error) {
+          console.error('خطا در به‌روزرسانی لوکیشن پرمصرف:', error);
+          return { name: '', flag: '' };
+        }
+      },
+
+       getTimeAgo(dateString) {
+        if (!dateString) {
+          return this.translations[this.currentLang].unknown;
+        }
+        
+        try {
+          const pastDate = new Date(dateString + 'Z');
+          const now = new Date();
+          
+          if (isNaN(pastDate.getTime())) {
+            return this.translations[this.currentLang].unknown;
+          }
+          
+          const diffInMs = now - pastDate;
+          const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+          
+          if (diffInMinutes < 1) {
+            return this.translations[this.currentLang].less_than_minute;
+          }
+          
+          const MINUTES_PER_HOUR = 60;
+          const HOURS_PER_DAY = 24;
+          
+          const days = Math.floor(diffInMinutes / (MINUTES_PER_HOUR * HOURS_PER_DAY));
+          const hours = Math.floor((diffInMinutes % (MINUTES_PER_HOUR * HOURS_PER_DAY)) / MINUTES_PER_HOUR);
+          const minutes = diffInMinutes % MINUTES_PER_HOUR;
+          
+          const parts = [];
+          
+          if (days > 0) {
+            const dayText = this.translations[this.currentLang].day;
+            const pluralSuffix = (days > 1 && this.currentLang === 'en') ? 's' : '';
+            parts.push(`${days} ${dayText}${pluralSuffix}`);
+          }
+          
+          if (hours > 0) {
+            const hourText = this.translations[this.currentLang].hour;
+            const pluralSuffix = (hours > 1 && this.currentLang === 'en') ? 's' : '';
+            parts.push(`${hours} ${hourText}${pluralSuffix}`);
+          }
+          
+          if (minutes > 0 && days === 0) {
+            const minuteText = this.translations[this.currentLang].minute;
+            const pluralSuffix = (minutes > 1 && this.currentLang === 'en') ? 's' : '';
+            parts.push(`${minutes} ${minuteText}${pluralSuffix}`);
+          }
+          
+          return `${parts.join(' ')} ${this.translations[this.currentLang].ago}`;
+        } catch (error) {
+          console.error('Error calculating time ago:', error);
+          return this.translations[this.currentLang].unknown;
+        }
+      },
+
+      init() {
+        Alpine.store('app', this);
+
+        Alpine.data('qrModal', () => ({
+          title: '',
+          get closeText() {
+            return this.$store.app.translations[this.$store.app.currentLang].close;
+          },
+          setTitle(newTitle) {
+            this.title = newTitle;
+          }
+        }));
+
+        Alpine.data('favoriteLocationData', () => ({
+          favoriteLocation: { name: '', flag: '' },
+          isLoading: true,
+          
+          init() {
+            this.loadData();
+          },
+          
+          async loadData() {
+            try {
+              const locationData = await this.$store.app.updateFavoriteLocation();
+              this.favoriteLocation = locationData;
+              this.isLoading = false;
+            } catch (error) {
+              console.error('Error loading favorite location:', error);
+              this.isLoading = false;
+            }
+          }
+        }));
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          this.darkMode = savedTheme === 'dark';
+          document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        } else {
+          this.darkMode = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        }
+        
+        const savedLang = localStorage.getItem('lang');
+        if (savedLang) {
+          this.currentLang = savedLang;
+          this.applyLanguage(savedLang);
+        }
+
+        const savedAvatar = localStorage.getItem('avatarUrl');
+        if (savedAvatar) {
+          this.avatarUrl = savedAvatar;
+        }
+        
+        const savedGuideMode = localStorage.getItem('guideMode');
+        if (savedGuideMode) {
+          this.guideMode = savedGuideMode;
+          if (savedGuideMode === 'advanced') {
+            this.advancedContentLoaded = true;
+          }
+        } else {
+          this.guideMode = 'easy';
+          localStorage.setItem('guideMode', 'easy');
+        }
+
+        document.addEventListener('show-qr', async function(e) {
+          await loadQRCode();
+          const qrModal = new bootstrap.Modal(document.getElementById('qr-modal'));
+          const qrContainer = document.getElementById('qr-canvas');
+          
+          const title = e.detail.name || e.detail.url;
+          window.dispatchEvent(new CustomEvent('show-qr-title', { detail: title }));
+          
+          qrContainer.innerHTML = '';
+          
+          new QRCode(qrContainer, {
+            text: e.detail.url,
+            width: 256,
+            height: 256,
+            colorDark: '#000000',
+            colorLight: '#ffffff'
+          });
+          
+          qrModal.show();
+        });
+
+        this.$watch('guideMode', (value) => {
+          if (value === 'advanced') {
+            this.advancedContentLoaded = true;
+          }
+          localStorage.setItem('guideMode', value);
+        });
+      },
+
+
+      toggleTheme() {
+        this.darkMode = !this.darkMode;
+        const theme = this.darkMode ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('theme', theme);
+      },
+
+
+      toggleLang() {
+        this.currentLang = this.currentLang === 'fa' ? 'en' : 'fa';
+        this.applyLanguage(this.currentLang);
+        localStorage.setItem('lang', this.currentLang);
+      },
+
+
+      applyLanguage(lang) {
+        if (lang === 'en') {
+          document.documentElement.setAttribute('dir', 'ltr');
+          document.documentElement.setAttribute('lang', 'en');
+        } else {
+          document.documentElement.setAttribute('dir', 'rtl');
+          document.documentElement.setAttribute('lang', 'fa');
+        }
+      },
+
+
+      formatBytes(bytes) {
+        if (!bytes || typeof bytes === 'string' && bytes.startsWith('{')) {
+          return '0 B';
+        }
+        
+        const numBytes = typeof bytes === 'string' ? parseInt(bytes, 10) : bytes;
+        
+        if (isNaN(numBytes) || numBytes === 0) {
+          return '0 B';
+        }
+        
+        const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        
+        const unitIndex = Math.floor(Math.log(numBytes) / Math.log(1024));
+        
+        const finalUnitIndex = Math.min(unitIndex, units.length - 1);
+        
+        const value = numBytes / Math.pow(1024, finalUnitIndex);
+        
+        const formattedValue = Number.isInteger(value) 
+          ? Math.round(value) 
+          : Math.round(value * 100) / 100;
+          
+        const valueString = formattedValue.toString().replace(/\.0+$/, '');
+        
+        return `${valueString} ${units[finalUnitIndex]}`;
+      },
+
+      getStatusText(statusValue) {
+        const statusMap = {
+          'active': this.translations[this.currentLang].active,
+          'limited': this.translations[this.currentLang].limited,
+          'expired': this.translations[this.currentLang].expired,
+          'disabled': this.translations[this.currentLang].disabled
+        };
+        return statusValue.startsWith('{') ? this.translations[this.currentLang].anonymous : (statusMap[statusValue] || this.translations[this.currentLang].anonymous);
+      },
+
+      getExpireText(expire) {
+        if (!expire) return this.translations[this.currentLang].unlimited;
+        if (expire.startsWith('{')) return this.translations[this.currentLang].anonymous;
+        
+        if (this.currentLang === 'fa') {
+          return `تا ${new Date(expire).toLocaleDateString('fa-IR')}`;
+        } else {
+          return `Until ${new Date(expire).toLocaleDateString('en-US')}`;
+        }
+      },
+
+      getRemainingDays(expire) {
+        if (!expire) return this.translations[this.currentLang].unlimited;
+        if (expire.startsWith('{')) return this.translations[this.currentLang].anonymous;
+        
+        const today = new Date();
+        const expireDate = new Date(expire);
+        const diffTime = expireDate - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays <= 0) return `0 ${this.translations[this.currentLang].day}`;
+        
+        return `${diffDays} ${this.translations[this.currentLang].day}`;
+      },
+
+      getTrafficText(usedTraffic, dataLimit) {
+        if (dataLimit === null || dataLimit === 'null') {
+          return `<span class="traffic-value">${this.formatBytes(usedTraffic)} / ∞</span>`;
+        }
+        
+        if (dataLimit.toString().startsWith('{')) {
+          return this.translations[this.currentLang].anonymous;
+        }
+        
+        return `<span class="traffic-value">${this.formatBytes(usedTraffic)} / ${this.formatBytes(dataLimit)}</span>`;
+      },
+      
+      getRemainingTrafficText(usedTraffic, dataLimit) {
+        if (dataLimit === null || dataLimit === 'null') {
+          return `<span class="traffic-value">∞</span>`;
+        }
+        
+        if (dataLimit.toString().startsWith('{')) {
+          return this.translations[this.currentLang].anonymous;
+        }
+        
+        const remainingTraffic = Math.max(0, dataLimit - usedTraffic);
+        return `<span class="traffic-value">${this.formatBytes(remainingTraffic)}</span>`;
+      },
+
+      importApp(type) {
+        const url = this.subscription_url;
+        const username = '{{ user.username }}';
+        switch(type) {
+          case 'hiddify':
+            window.location.href = `hiddify://import/${url}`;
+            break;
+          case 'singbox':
+            window.location.href = `sing-box://import-remote-profile?url=${url}#${username}`;
+            break;
+          case 'clash':
+            window.location.href = `clash://install-config?url=${url}`;
+            break;
+          case 'v2ray':
+            navigator.clipboard.writeText(url);
+            alert('لینک کپی شد. لطفاً آن را در برنامه وارد کنید');
+            break;
+        }
+      },
+      
+      async copyLink(link, button) {
+        try {
+          await buttonCopyFeedback(button, link, this.translations, this.currentLang);
+          console.log('لینک با موفقیت کپی شد.');
+        } catch (error) {
+          console.error('خطا در کپی کردن لینک:', error);
+        }
+      },
+
+
+      setAvatar(url) {
+        this.avatarUrl = url;
+        localStorage.setItem('avatarUrl', url);
+      },
+      
+
+      getInitial(username) {
+        if (!username || username.startsWith('{')) return '?';
+        return username.charAt(0).toUpperCase();
+      },
+
+
+      userOS: detectOS(),
+
+
+      sortAppsByOS(apps) {
+        if (!Array.isArray(apps)) return apps;
+        const os = this.userOS;
+        if (!os || os === 'other') return apps;
+        const recommended = apps.filter(a => a.os === os);
+        const others = apps.filter(a => a.os !== os);
+        return [...recommended, ...others];
+      },
+
+
+      sortAccordionsByOS(accs) {
+        if (!Array.isArray(accs)) return accs;
+        const os = this.userOS;
+        if (!os || os === 'other') return accs;
+        const idx = accs.findIndex(a => a.os === os);
+        if (idx > 0) {
+          const [item] = accs.splice(idx, 1);
+          accs.unshift(item);
+        }
+        return accs;
+      },
+
+
+      sortEasySettingsByOS(settings) {
+        const os = this.userOS;
+        let orderedNames = [];
+        if (os === 'windows') {
+          orderedNames = [this.currentLang === 'fa' ? 'کلش' : 'Clash', this.translations[this.currentLang].hiddifySettings];
+        } else if (os === 'android') {
+          orderedNames = [this.translations[this.currentLang].singboxSettings, this.translations[this.currentLang].hiddifySettings];
+        } else if (os === 'ios') {
+          orderedNames = [this.translations[this.currentLang].singboxSettings, this.translations[this.currentLang].hiddifySettings];
+        } else if (os === 'mac') {
+          orderedNames = [this.translations[this.currentLang].singboxSettings];
+        }
+        const recommended = orderedNames
+          .map(name => settings.find(s => s.name === name))
+          .filter(Boolean);
+        const recommendedNamesSet = new Set(recommended.map(s => s.name));
+        const others = settings.filter(s => !recommendedNamesSet.has(s.name));
+        return [
+          ...recommended.map(s => ({...s, recommended: true})),
+          ...others.map(s => ({...s, recommended: false}))
+        ];
+      },
+    };
+  });
+
+
+  async function buttonCopyFeedback(button, link, translations, lang, iconCopy = '#copy', iconCheck = '#check-square', timeout = 2000) {
+    const originalHTML = button.innerHTML;
+    try {
+      if (link) {
+        await navigator.clipboard.writeText(link);
+      }
+      button.innerHTML = `<svg class='bi' width='16' height='16'><use href='${iconCheck}'></use></svg> <span>${translations[lang].copied}</span>`;
+      button.classList.add('copied');
+      return new Promise(resolve => {
+        setTimeout(() => {
+          button.innerHTML = `<svg class='bi' width='16' height='16'><use href='${iconCopy}'></use></svg> <span>${translations[lang].copy}</span>`;
+          button.classList.remove('copied');
+          resolve();
+        }, timeout);
+      });
+    } catch (error) {
+      console.error('خطا در کپی کردن متن:', error);
+      button.innerHTML = originalHTML;
+      button.classList.remove('copied');
+      return Promise.reject(error);
+    }
+  }
+
+
+  function detectOS() {
+    const ua = navigator.userAgent;
+    if (/windows phone/i.test(ua)) return 'windows';
+    if (/win/i.test(ua)) return 'windows';
+    if (/android/i.test(ua)) return 'android';
+    if (/iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document)) return 'ios';
+    if (/mac/i.test(ua)) return 'mac';
+    return 'other';
+  }
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.body.addEventListener('shown.bs.collapse', function(e) {
+      const item = e.target.closest('.accordion-item');
+      if (item) item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</head>
+
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="android" viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25c-.69 0-1.25-.56-1.25-1.25S6.31 12.75 7 12.75s1.25.56 1.25 1.25S7.69 15.25 7 15.25zm10 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></symbol>
+    <symbol id="microsoft" viewBox="0 0 16 16"><path d="M7.462 0H0v7.19h7.462V0zM16 0H8.538v7.19H16V0zM7.462 8.211H0V16h7.462V8.211zm8.538 0H8.538V16H16V8.211z"/></symbol>
+    <symbol id="apple" viewBox="0 0 16 16"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"/></symbol>
+    <symbol id="cloud-plus" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" d="M8 5.5v5M5.5 8h5"/><path fill="none" stroke="currentColor" stroke-width="1" d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/></symbol>
+    <symbol id="person-circle" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.3"/><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/></symbol>
+    <symbol id="clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.3"/><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/></symbol>
+    <symbol id="arrow-down-circle" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.3"/><path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/></symbol>
+    <symbol id="check-circle" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.3"/><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/></symbol>
+    <symbol id="x-circle" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.3"/><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></symbol>
+    <symbol id="cloud-arrow-down" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" d="M8 9.5v-4m0 4l2-2m-4 0l2 2"/><path fill="none" stroke="currentColor" stroke-width="1" d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/></symbol>
+    <symbol id="copy" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1" d="M4 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2z"/><path fill="none" stroke="currentColor" stroke-width="1" d="M2 6a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6z"/></symbol>
+    <symbol id="check-square" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/><path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"/></symbol>
+    <symbol id="cloud-check" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" d="M6 8.5l1.5 1.5L10 7"/><path fill="none" stroke="currentColor" stroke-width="1" d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/></symbol>
+    <symbol id="info-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></symbol>
+    <symbol id="filter-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 11.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5"/></symbol>
+    <symbol id="sun" viewBox="0 0 16 16"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></symbol>
+    <symbol id="moon" viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></symbol>
+    <symbol id="qr-code" viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm8-12v8h8V3h-8zm6 6h-4V5h4v4zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM11 13h2v2h-2zM15 17h2v2h-2zM17 13h2v2h-2zM17 17h2v2h-2zM19 19h2v2h-2zM19 15h2v2h-2z"/></symbol>
+    <symbol id="globe-americas" viewBox="0 0 16 16">
+      <circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.3"/>
+      <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 0-.597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.47 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/>
+    </symbol>
+    <symbol id="clock-history-alt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.3"/><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/></symbol>
+    <symbol id="question-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/></symbol>
+    <symbol id="translate" viewBox="0 0 16 16"><path d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286zm1.634-.736L5.5 3.956h-.049l-.679 2.022z"/><path d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm7.138 9.995q.289.451.63.846c-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6 6 0 0 1-.415-.492 2 2 0 0 1-.94.31"/></symbol>
+    <symbol id="gear-fill" viewBox="0 0 16 16"><path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/></symbol>
+  </svg>
+
+  <main class="container my-container" x-data="app" x-cloak>
+    <header class="page-header">
+      <div class="header-title-section">
+        <div class="user-avatar" role="img">
+          <template x-if="avatarUrl">
+            <img :src="avatarUrl" alt="User Avatar">
+          </template>
+          <template x-if="!avatarUrl">
+            <div class="user-avatar-placeholder" x-text="getInitial('{{ user.username }}')"></div>
+          </template>
+        </div>
+        <h1 class="main-texts fw-bold mb-0" x-text="translations[currentLang].subscriptionInfo"></h1>
+      </div>
+      
+      <div class="header-buttons-section">
+        <button class="lang-toggle" @click="toggleLang">
+          <svg class="bi"><use href="#translate"></use></svg>
+        </button>
+        <button class="theme-toggle" @click="toggleTheme">
+          <svg class="bi" x-show="darkMode"><use href="#sun"></use></svg>
+          <svg class="bi" x-show="!darkMode"><use href="#moon"></use></svg>
+        </button>
+      </div>
+    </header>
+    
+    <div class="guide-mode-toggle mb-4 mt-3" role="tablist">
+      <div class="btn-group w-100">
+        <button class="btn guide-mode-btn" :class="guideMode === 'easy' ? 'active' : ''" @click="guideMode = 'easy'">
+          <span class="app-texts" x-text="currentLang === 'fa' ? 'حالت آسان' : 'Easy Mode'"></span>
+        </button>
+        <button class="btn guide-mode-btn" 
+                :class="guideMode === 'advanced' ? 'active' : ''" 
+                @click="guideMode = 'advanced'; advancedContentLoaded = true">
+                <span class="app-texts" x-text="currentLang === 'fa' ? 'حالت پیشرفته' : 'Advanced Mode'"></span>
+        </button>
+      </div>
+    </div>
+
+    <template x-if="guideMode === 'easy'">
+      <section class="row g-3 mb-4">
+        <div class="col-12 col-md-6">
+          <article class="my-block" x-data="{expire: '{% if user.expire %}{{ user.expire | datetime }}{% endif %}'}">
+            <h2 class="visually-hidden">زمان باقیمانده</h2>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <div class="d-flex flex-row align-items-center order-1">
+                <svg class="bi"><use href="#clock"></use></svg>
+                <h3 class="box-texts mb-0" x-text="translations[currentLang].remaining_time"></h3>
+              </div>
+              <p class="box-value box-texts text-truncate mb-0 order-2" x-text="getRemainingDays(expire)"></p>
+            </div>
+          </article>
+        </div>
+        
+        <div class="col-12 col-md-6">
+          <article class="my-block" x-data="{
+            usedTraffic: {{ user.used_traffic }},
+            dataLimit: {{ user.data_limit if user.data_limit else 'null' }}
+          }">
+            <h2 class="visually-hidden">ترافیک باقیمانده</h2>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <div class="d-flex flex-row align-items-center order-1">
+                <svg class="bi"><use href="#arrow-down-circle"></use></svg>
+                <h3 class="box-texts mb-0" x-text="translations[currentLang].remaining_traffic"></h3>
+              </div>
+              <p class="box-value box-texts text-truncate mb-0 order-2" x-html="getRemainingTrafficText(usedTraffic, dataLimit)"></p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </template>
+    
+    <template x-if="guideMode === 'advanced'">
+      <section class="row row-cols-2 row-cols-md-3 g-3 mb-4">
+        <div class="col">
+          <article class="my-block" x-data="{username: '{{ user.username }}'}">
+            <h2 class="visually-hidden">نام کاربری</h2>
+            <div class="d-flex flex-row align-items-center mb-3">
+              <svg class="bi"><use href="#person-circle"></use></svg>
+              <h3 class="box-texts mb-0" x-text="translations[currentLang].username"></h3>
+            </div>
+            <p class="sub-texts text-truncate mb-0" x-text="username.startsWith('{') ? translations[currentLang].anonymous : username"></p>
+          </article>
+        </div>
+        
+        <div class="col">
+          <article class="my-block" x-data="{statusValue: '{{ user.status.value }}'}">
+            <h2 class="visually-hidden">وضعیت</h2>
+            <div class="d-flex flex-row align-items-center mb-3">
+              <svg class="bi"><use x-bind:href="statusValue == 'active' || statusValue.startsWith('{') ? '#check-circle' : '#x-circle'"></use></svg>
+              <h3 class="box-texts mb-0" x-text="translations[currentLang].status"></h3>
+            </div>
+            <p class="sub-texts text-truncate mb-0" x-text="getStatusText(statusValue)"></p>
+          </article>
+        </div>
+        
+        <div class="col">
+          <article class="my-block" x-data="{expire: '{% if user.expire %}{{ user.expire | datetime }}{% endif %}'}">
+            <h2 class="visually-hidden">مدت زمان</h2>
+            <div class="d-flex flex-row align-items-center mb-3">
+              <svg class="bi"><use href="#clock"></use></svg>
+              <h3 class="box-texts mb-0" x-text="translations[currentLang].duration"></h3>
+            </div>
+            <p class="sub-texts text-truncate mb-0" x-text="getExpireText(expire)"></p>
+          </article>
+        </div>
+        
+        <div class="col">
+          <article class="my-block" x-data="{
+            usedTraffic: {{ user.used_traffic }},
+            dataLimit: {{ user.data_limit if user.data_limit else 'null' }}
+          }">
+            <h2 class="visually-hidden">ترافیک</h2>
+            <div class="d-flex flex-row align-items-center mb-3">
+              <svg class="bi"><use href="#arrow-down-circle"></use></svg>
+              <h3 class="box-texts mb-0" x-text="translations[currentLang].traffic"></h3>
+            </div>
+            <p class="sub-texts text-truncate mb-0" x-html="getTrafficText(usedTraffic, dataLimit)"></p>
+          </article>
+        </div>
+        
+        <div class="col">
+          <article class="my-block" x-data="{lastOnline: '{{ user.online_at }}'}">
+            <h2 class="visually-hidden">آخرین اتصال</h2>
+            <div class="d-flex flex-row align-items-center mb-3">
+              <svg class="bi"><use href="#clock-history-alt"></use></svg>
+              <h3 class="box-texts mb-0" x-text="translations[currentLang].last_connection"></h3>
+            </div>
+            <p class="sub-texts text-truncate mb-0" x-text="getTimeAgo(lastOnline)"></p>
+          </article>
+        </div>
+      
+        <div class="col">
+          <article class="my-block" x-data="favoriteLocationData">
+            <h2 class="visually-hidden">لوکیشن پرمصرف</h2>
+            <div class="d-flex flex-row align-items-center mb-3">
+              <svg class="bi"><use href="#globe-americas"></use></svg>
+              <h3 class="box-texts mb-0" x-text="translations[currentLang].favorite_location"></h3>
+            </div>
+            <template x-if="isLoading">
+              <p class="sub-texts text-truncate mb-0" x-text="translations[currentLang].loading"></p>
+            </template>
+            <template x-if="!isLoading && (!favoriteLocation || !favoriteLocation.name)">
+              <p class="sub-texts text-truncate mb-0" x-text="translations[currentLang].no_usage_data"></p>
+            </template>
+            <template x-if="!isLoading && favoriteLocation && favoriteLocation.name">
+              <p class="sub-texts text-truncate mb-0">
+                <span x-text="favoriteLocation.flag"></span>
+                <span x-text="favoriteLocation.name"></span>
+              </p>
+            </template>
+          </article>
+        </div>
+      </section>
+    </template>
+    
+    <nav class="connection-buttons">
+      <template x-if="guideMode === 'easy'">
+        <a class="btn my-btn-outline w-100" href="https://t.me/YOUR-TELEGRAM-USERNAME" role="button" rel="noopener noreferrer" target="_blank">
+          <svg class='bi me-1'><use href='#info-circle'></use></svg>
+          <span class="app-texts" x-text="translations[currentLang].telegramSupport"></span>
+        </a>
+      </template>
+      
+      <template x-if="guideMode === 'advanced'">
+        <div class="w-100 d-flex gap-3">
+          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/MrClocks" role="button" rel="noopener noreferrer" target="_blank">
+            <svg class='bi me-1'><use href='#info-circle'></use></svg>
+            <span class="app-texts" x-text="translations[currentLang].telegramSupport"></span>
+          </a>
+          <button class="btn my-btn-outline flex-grow-1" data-bs-toggle="modal" data-bs-target="#get-link-modal">
+            <svg class='bi me-1'><use href='#filter-circle'></use></svg>
+            <span class="app-texts" x-text="translations[currentLang].showConfigs"></span>
+          </button>
+        </div>
+      </template>
+    </nav>
+
+    <section class="connection-guide">
+      <template x-if="guideMode === 'easy'">
+        <h2 id="connection-guide-title" class="main-texts mb-3 fw-bold d-flex align-items-center gap-2" 
+            :class="currentLang === 'fa' ? 'text-start' : 'text-end'">
+            <span x-text="translations[currentLang].connectionGuide"></span>
+        </h2>
+      </template>
+
+      <div class="mb-4 d-flex align-items-center">
+        <span :class="userOS === 'other' ? 'os-detect-indicator red' : 'os-detect-indicator green'"></span>
+        <span class="sub-texts">
+          <span x-text="currentLang === 'fa' ? 'سیستم عامل :' : 'OS:'"></span>
+          <span>
+            <template x-if="userOS === 'windows'"><span x-text="currentLang === 'fa' ? 'ویندوز' : 'Windows'"></span></template>
+            <template x-if="userOS === 'android'"><span x-text="currentLang === 'fa' ? 'اندروید' : 'Android'"></span></template>
+            <template x-if="userOS === 'ios'"><span x-text="currentLang === 'fa' ? 'آیفون' : 'iPhone'"></span></template>
+            <template x-if="userOS === 'mac'"><span x-text="currentLang === 'fa' ? 'مک' : 'Mac'"></span></template>
+            <template x-if="userOS === 'other'"><span x-text="translations[currentLang].unknown"></span></template>
+          </span>
+        </span>
+      </div>
+    </section>
+    
+    <div class="modal my-modal fade" id="get-link-modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header position-relative">
+            <h3 class="head-texts fw-semibold mb-0" id="linkModalLabel" x-text="translations[currentLang].configLinks"></h3>
+            <button type="button" 
+                    class="modal-close-btn" 
+                    data-bs-dismiss="modal"
+                    x-text="translations[currentLang].close">
+            </button>
+          </div>
+          <div class="modal-body" x-data="{
+            subscriptionUrl: '{{ user.subscription_url }}',
+            links: [{% for link in user.links %}'{{ link }}'{% if not loop.last %}, {% endif %}{% endfor %}],
+            getLinkName(link) {
+              if (link === this.subscriptionUrl) return translations[currentLang].subscriptionLink;
+              
+              const protocols = {
+                'vmess://': link => {
+                  try { 
+                    const config = JSON.parse(atob(link.replace('vmess://', '')));
+                    return config.ps || translations[currentLang].vMessConfig;
+                  } catch { 
+                    return translations[currentLang].vMessConfig; 
+                  }
+                },
+                'vless://': link => {
+                  try {
+                    const url = new URL(link);
+                    const params = new URLSearchParams(url.hash.slice(1));
+                    return params.get('remark') || decodeURIComponent(url.hash.slice(1)) || translations[currentLang].vLessConfig;
+                  } catch {
+                    return translations[currentLang].vLessConfig;
+                  }
+                },
+                'trojan://': link => {
+                  try {
+                    const url = new URL(link);
+                    const params = new URLSearchParams(url.hash.slice(1));
+                    return params.get('remark') || translations[currentLang].trojanConfig;
+                  } catch {
+                    return translations[currentLang].trojanConfig;
+                  }
+                },
+                'ss://': link => {
+                  try {
+                    const decoded = atob(link.replace('ss://', '').split('@')[0]);
+                    const parts = decoded.split(':');
+                    return parts.length > 1 ? decodeURIComponent(parts[1]) || translations[currentLang].shadowsocksConfig : translations[currentLang].shadowsocksConfig;
+                  } catch {
+                    return translations[currentLang].shadowsocksConfig;
+                  }
+                }
+              };
+              
+              for (const prefix in protocols) {
+                if (link.startsWith(prefix)) {
+                  return protocols[prefix](link);
+                }
+              }
+              
+              try {
+                const url = new URL(link);
+                const params = new URLSearchParams(url.hash.slice(1));
+                return params.get('remark') || decodeURIComponent(url.hash.slice(1)) || translations[currentLang].configLink;
+              } catch {
+                return link.includes('#') ? decodeURIComponent(link.split('#')[1]) || translations[currentLang].configLink : translations[currentLang].configLink;
+              }
+            }
+          }">
+            <p class="sub-texts mb-3" x-text="translations[currentLang].configLinksDesc"></p>
+            <div class="mb-3">
+              <div class="config-link">
+                <div class="config-link-name"><span x-text="translations[currentLang].subscriptionLink"></span></div>
+                <div class="config-link-buttons">
+                  <button class="config-link-qr-btn" @click="$dispatch('show-qr', {url: subscriptionUrl, name: translations[currentLang].subscriptionLink})">
+                    <svg class="bi"><use href="#qr-code"></use></svg>
+                  </button>
+                  <button class="config-link-copy-btn" 
+                  @click="copyLink(subscriptionUrl, $el)" 
+                  x-html="`<svg class='bi' width='14' height='14'><use href='#copy'></use></svg> <span>${translations[currentLang].copy}</span>`">
+                  </button>
+                </div>
+              </div>
+              
+              <template x-for="(link, index) in links" :key="index">
+                <div class="config-link">
+                  <div class="config-link-name"><span x-text="getLinkName(link)"></span></div>
+                  <div class="config-link-buttons">
+                    <button class="config-link-qr-btn" @click="$dispatch('show-qr', {url: link, name: getLinkName(link)})">
+                      <svg class="bi"><use href="#qr-code"></use></svg>
+                    </button>
+                    <button class="config-link-copy-btn" 
+                    @click="copyLink(link, $el)" 
+                    x-html="`<svg class='bi' width='16' height='16'><use href='#copy'></use></svg> <span>${translations[currentLang].copy}</span>`">
+                    </button>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tab-content">
+      <div id="tab-pc" class="tab-pane my-tab-pane fade show active">
+        <div class="row g-3">
+          <template x-if="guideMode === 'easy'">
+            <div class="col-12 col-lg-6">
+              <div class="my-block-big h-100">
+                <span class="my-step-counter mb-3"></span>
+                <h3 class="head-texts fw-semibold" x-text="translations[currentLang].downloadApps"></h3>
+                <p class="sub-texts" x-text="translations[currentLang].downloadAppsDesc"></p>
+                
+                <div class="download-buttons">
+                  <template x-for="(app, idx) in sortAppsByOS([
+                  { name: currentLang === 'fa' ? 'کلش ورج ویندوز' : 'Clash Verge Windows', os: 'windows', icon: '#microsoft', link: 'https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.2.3/Clash.Verge_2.2.3_x64-setup.exe' },
+                  { name: translations[currentLang].hiddifyWindows, os: 'windows', icon: '#microsoft', link: 'https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-Windows-Setup-x64.exe' },
+                  { name: translations[currentLang].singboxAndroid, os: 'android', icon: '#android', link: 'https://github.com/SagerNet/sing-box/releases/download/v1.11.8/SFA-1.11.8-universal.apk' },
+                  { name: translations[currentLang].hiddifyAndroid, os: 'android', icon: '#android', link: 'https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-Android-universal.apk' },
+                  { name: translations[currentLang].singboxApple, os: 'ios', icon: '#apple', link: 'https://apps.apple.com/us/app/sing-box-vt/id6673731168' },
+                  { name: translations[currentLang].hiddifyApple, os: 'ios', icon: '#apple', link: 'https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532' },                    { name: currentLang === 'fa' ? 'سینگ باکس مک' : 'Sing-box Mac', os: 'mac', icon: '#apple', link: 'https://github.com/SagerNet/sing-box/releases/download/v1.11.8/SFM-1.11.8-universal.dmg' }
+                  ])" :key="app.name">
+                    <div class="config-link" :class="app.os === userOS ? 'os-recommend-border' : ''">
+                      <div class="config-link-name">
+                        <svg class="bi" width="16" height="16"><use :href="app.icon"></use></svg>
+                        <span class="app-texts" x-text="app.name"></span>
+                      </div>
+                      <div class="config-link-buttons">
+                        <a class="download-button" :href="app.link" role="button" rel="noopener noreferrer" target="_blank"
+                           @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open(app.link, '_blank'), 300);">
+                          <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                          <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                        </a>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </template>
+          
+          <template x-if="guideMode === 'advanced' && advancedContentLoaded">
+            <div class="col-12 col-lg-6">
+              <div class="my-block-big h-100 advanced-mode-box">
+                <h3 class="head-texts fw-semibold" x-text="translations[currentLang].downloadApps"></h3>
+                <p class="sub-texts" x-text="translations[currentLang].downloadAppsDesc"></p>
+                <div class="accordion" id="downloadAppsAccordion">
+                  <template x-for="(acc, idx) in sortAccordionsByOS([
+                    { os: 'windows', id: 'windowsAppsCollapse', label: translations[currentLang].windowsApps },
+                    { os: 'android', id: 'androidAppsCollapse', label: translations[currentLang].androidApps },
+                    { os: 'ios', id: 'appleAppsCollapse', label: currentLang === 'fa' ? 'برنامه‌های آیفون' : 'iPhone Apps' },
+                    { os: 'mac', id: 'macAppsCollapse', label: currentLang === 'fa' ? 'برنامه‌های مک' : 'Mac Apps' }
+                  ])" :key="acc.id">
+                    <div class="accordion-item" :class="idx === 0 ? 'os-recommend-accordion' : ''">
+                      <h2 class="accordion-header" :id="acc.id + 'Heading'">
+                        <button class="accordion-button app-texts collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#' + acc.id" aria-expanded="false" :aria-controls="acc.id">
+                          <svg class="bi" width="16" height="16"><use :href="acc.os === 'windows' ? '#microsoft' : acc.os === 'android' ? '#android' : '#apple'"></use></svg>
+                          <span x-text="acc.label"></span>
+                        </button>
+                      </h2>
+                      <div :id="acc.id" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                          <template x-if="acc.id === 'windowsAppsCollapse'">
+                            <div>
+                              <div class="download-buttons">
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-Windows-Setup-x64.exe" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-Windows-Setup-x64.exe', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'نکوری' : 'Nekoray'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/MatsuriDayo/nekoray/releases/download/4.0.1/nekoray-4.0.1-2024-12-12-windows64.zip" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/MatsuriDayo/nekoray/releases/download/4.0.1/nekoray-4.0.1-2024-12-12-windows64.zip', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2ری' : 'V2rayN'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/2dust/v2rayN/releases/download/7.11.3/v2rayN-windows-64-desktop.zip" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/2dust/v2rayN/releases/download/7.11.3/v2rayN-windows-64-desktop.zip', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش ورج' : 'Clash Verge'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.2.3/Clash.Verge_2.2.3_x64-setup.exe" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.2.3/Clash.Verge_2.2.3_x64-setup.exe', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'اف ال کلش' : 'FLClash'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/chen08209/FlClash/releases/download/v0.8.82/FlClash-0.8.82-windows-amd64-setup.exe" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/chen08209/FlClash/releases/download/v0.8.82/FlClash-0.8.82-windows-amd64-setup.exe', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'اوتلاین' : 'Outline'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://s3.amazonaws.com/outline-releases/client/windows/stable/Outline-Client.exe" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://s3.amazonaws.com/outline-releases/client/windows/stable/Outline-Client.exe', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                          <template x-if="acc.id === 'androidAppsCollapse'">
+                            <div>
+                              <div class="download-buttons">
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-Android-universal.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-Android-universal.apk', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/SagerNet/sing-box/releases/download/v1.11.8/SFA-1.11.8-universal.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/SagerNet/sing-box/releases/download/v1.11.8/SFA-1.11.8-universal.apk', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2باکس' : 'V2Box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://play.google.com/store/apps/details?id=dev.hexasoftware.v2box&hl=fa" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://play.google.com/store/apps/details?id=dev.hexasoftware.v2box&hl=fa', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'نکوباکس' : 'Nekobox'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/MatsuriDayo/NekoBoxForAndroid/releases/download/1.3.9/NekoBox-1.3.9-arm64-v8a.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/MatsuriDayo/NekoBoxForAndroid/releases/download/1.3.9/NekoBox-1.3.9-arm64-v8a.apk', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2ری‌' : 'V2rayNG'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/2dust/v2rayNG/releases/download/1.9.46/v2rayNG_1.9.46_universal.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/2dust/v2rayNG/releases/download/1.9.46/v2rayNG_1.9.46_universal.apk', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'اوتلاین' : 'Outline'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://play.google.com/store/apps/details?id=org.outline.android.client" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://play.google.com/store/apps/details?id=org.outline.android.client', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                          <template x-if="acc.id === 'appleAppsCollapse'">
+                            <div>
+                              <div class="download-buttons">
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/sing-box-vt/id6673731168" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/sing-box-vt/id6673731168', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'استریسند' : 'Streisand'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/app/streisand/id6450534064" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/app/streisand/id6450534064', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2باکس' : 'V2Box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/app/v2box/id6446814690" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/app/v2box/id6446814690', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/app/id6504287215" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/app/id6504287215', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'فیر' : 'Fair'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/fair-vpn/id1533873488" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/fair-vpn/id1533873488', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'استش' : 'Stash'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'اوتلاین' : 'Outline'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/outline-secure-internet-access/id1356177741" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/outline-secure-internet-access/id1356177741', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کرینگ' : 'Karing'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/app/id6472431552" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/app/id6472431552', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                          <template x-if="acc.id === 'macAppsCollapse'">
+                            <div>
+                              <div class="download-buttons">
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-MacOS.dmg" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-MacOS.dmg', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/SagerNet/sing-box/releases/download/v1.11.8/SFM-1.11.8-universal.dmg" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/SagerNet/sing-box/releases/download/v1.11.8/SFM-1.11.8-universal.dmg', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش ورج' : 'Clash Verge'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.2.3/Clash.Verge_2.2.3_x64.dmg" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.2.3/Clash.Verge_2.2.3_x64.dmg', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'اف ال کلش' : 'FLClash'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/chen08209/FlClash/releases/download/v0.8.82/FlClash-0.8.82-macos-amd64.dmg" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/chen08209/FlClash/releases/download/v0.8.82/FlClash-0.8.82-macos-amd64.dmg', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'اوتلاین' : 'Outline'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/outline-secure-internet-access/id1356178125" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/outline-secure-internet-access/id1356178125', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی۲باکس' : 'V2Box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/v2box/id6446814690" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/v2box/id6446814690', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <template x-if="guideMode === 'easy'">
+            <div class="col-12 col-lg-6">
+              <div class="equal-height-container">
+                <div class="my-block-big mb-3">
+                  <span class="my-step-counter mb-3"></span>
+                  <h3 class="head-texts fw-semibold" x-text="translations[currentLang].addSubscription"></h3>
+                  <p class="sub-texts" x-text="translations[currentLang].addSubscriptionDesc"></p>
+                  
+                  <div class="download-buttons">
+                    <template x-for="(setting, idx) in sortEasySettingsByOS([
+                      { name: currentLang === 'fa' ? 'کلش' : 'Clash', click: () => importApp('clash') },
+                      { name: translations[currentLang].hiddifySettings, click: () => importApp('hiddify') },
+                      { name: translations[currentLang].singboxSettings, click: () => importApp('singbox') }
+                    ])" :key="setting.name">
+                      <div class="config-link" :class="setting.recommended ? 'os-recommend-border' : ''">
+                        <div class="config-link-name">
+                          <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                          <span class="app-texts" x-text="setting.name"></span>
+                        </div>
+                        <div class="config-link-buttons">
+                          <a class="settings-button app-texts" 
+                             href="#" 
+                             @click.prevent="setting.click(); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                            <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                            <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                          </a>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+                
+                <div class="my-block-big">
+                  <span class="my-step-counter mb-3"></span>
+                  <h3 class="head-texts fw-semibold mb-3" x-text="translations[currentLang].connectAndUse"></h3>
+                  <div class="download-buttons">
+                    <template x-for="(guide, idx) in sortAppsByOS([
+                      {
+                        os: 'windows',
+                        icon: '#microsoft',
+                        text: currentLang === 'fa'
+                          ? 'در ویندوز با راست کلیک روی برنامه ها آنها را در حالت Run as administrator باز کنید . در هیدیفای روی Connect کلیک کنید و و در کلش ورج TUN را فعال کنید '
+                          : 'In Windows, right-click and run the apps as administrator. Click Connect in Hiddify and enable TUN in Clash Verge.'
+                      },
+                      {
+                        os: 'android',
+                        icon: '#android',
+                        text: currentLang === 'fa'
+                          ? 'در اندروید پس از وارد کردن تنظیمات , در هیدیفای روی Connect و در سینگ باکس روی Enable کلیک کنید '
+                          : 'In Android After importing settings, click Connect in Hiddify and Enable in Sing-box.'
+                      },
+                      {
+                        os: 'ios',
+                        icon: '#apple',
+                        text: currentLang === 'fa'
+                          ? 'در آیفون و آیپد پس از وارد کردن تنظیمات , در هیدیفای روی Connect و در سینگ باکس روی Enable کلیک کنید '
+                          : 'In iOS & iPadOS Devices After importing settings, click Connect in Hiddify and Enable in Sing-box.'
+                      },
+                      {
+                        os: 'mac',
+                        icon: '#apple',
+                        text: currentLang === 'fa'
+                          ? 'در مک پس از وارد کردن تنظیمات در سینگ باکس روی Enable کلیک کنید '
+                          : 'In macOS Devices After importing settings, click Enable in Sing-box.'
+                      }
+                    ])" :key="guide.os">
+                      <div class="config-link" :class="guide.os === userOS ? 'os-recommend-border' : ''" style="padding: 1rem;">
+                        <div class="config-link-name">
+                          <svg class="bi" width="24" height="24" :style="`color: var(--${guide.os}-icon-color); min-width: 24px;`"><use :href="guide.icon"></use></svg>
+                          <span class="sub-texts" style="flex-grow: 1; white-space: normal;" x-text="guide.text"></span>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+          
+          <template x-if="guideMode === 'advanced' && advancedContentLoaded">
+            <div class="col-12 col-lg-6">
+              <div class="my-block-big h-100 advanced-mode-box">
+                <h3 class="head-texts fw-semibold" x-text="translations[currentLang].addSubscription"></h3>
+                <p class="sub-texts" x-text="translations[currentLang].addSubscriptionDesc"></p>
+                
+                <div class="accordion" id="settingsAccordion">
+                  <template x-for="(acc, idx) in sortAccordionsByOS([
+                    { os: 'windows', id: 'windowsSettingsCollapse', label: translations[currentLang].windowsSettings },
+                    { os: 'android', id: 'androidSettingsCollapse', label: translations[currentLang].androidSettings },
+                    { os: 'ios', id: 'appleSettingsCollapse', label: translations[currentLang].appleSettings },
+                    { os: 'mac', id: 'macSettingsCollapse', label: translations[currentLang].macSettings }
+                  ])" :key="acc.id">
+                    <div class="accordion-item" :class="idx === 0 ? 'os-recommend-accordion' : ''">
+                      <h2 class="accordion-header" :id="acc.id + 'Heading'">
+                        <button class="accordion-button app-texts collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#' + acc.id" aria-expanded="false" :aria-controls="acc.id">
+                          <svg class="bi" width="16" height="16"><use :href="acc.os === 'windows' ? '#microsoft' : acc.os === 'android' ? '#android' : '#apple'"></use></svg>
+                          <span x-text="acc.label"></span>
+                        </button>
+                      </h2>
+                      <div :id="acc.id" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                          <template x-if="acc.id === 'windowsSettingsCollapse'">
+                            <div>
+                              <div class="download-buttons">
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('hiddify'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('singbox'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'نکوری' : 'Nekoray'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="navigator.clipboard.writeText('{{ user.subscription_url }}'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].copied}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش ورج' : 'Clash Verge'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('clash'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2ری' : 'V2rayN'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="navigator.clipboard.writeText('{{ user.subscription_url }}'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].copied}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                          <template x-if="acc.id === 'androidSettingsCollapse'">
+                            <div>
+                              <div class="download-buttons">
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('hiddify'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('singbox'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2باکس' : 'V2Box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `v2box://import-remote-profile?url=${'{{ user.subscription_url }}'}#{{ user.username }}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2ری' : 'V2ray'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="navigator.clipboard.writeText('{{ user.subscription_url }}'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].copied}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش' : 'Clash'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('clash'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'نکوباکس' : 'Nekobox'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `nekobox://import?url=${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                          <template x-if="acc.id === 'appleSettingsCollapse'">
+                            <div>
+                              <div class="download-buttons">
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('hiddify'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('singbox'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'شدوراکت' : 'Shadowrocket'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `shadowrocket://add/sub://${btoa('{{ user.subscription_url }}')}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2باکس' : 'V2Box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `v2box://import-remote-profile?url=${'{{ user.subscription_url }}'}#{{ user.username }}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'استریسند' : 'Streisand'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `streisand://import?url=${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `happ://install/add?url=${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'استش' : 'Stash'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('clash'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                          <template x-if="acc.id === 'macSettingsCollapse'">
+                            <div>
+                              <div class="download-buttons">
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('hiddify'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('singbox'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش' : 'Clash'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('clash'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی۲باکس' : 'V2Box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('v2ray'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </main>
+ 
+  <div class="modal qr-modal fade" id="qr-modal" tabindex="-1"
+       x-data="{ title: '' }" @show-qr-title.window="title = $event.detail">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header d-flex justify-content-between align-items-center">
+          <h2 class="app-texts mb-0" id="qrModalLabel"><span x-text="title"></span></h2>
+          <button type="button" 
+                  class="modal-close-btn" 
+                  data-bs-dismiss="modal"
+                  x-text="$store.app.translations[$store.app.currentLang].close">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="qr-canvas" role="img"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
