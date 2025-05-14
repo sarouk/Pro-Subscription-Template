@@ -117,8 +117,8 @@ marzban restart
   <p dir="rtl">🌟 اگر از این پروژه خوشتان آمد، لطفاً به آن ستاره دهید 🌟</p>
   
   <p>
-    <a href="https://github.com/Mrclocks/MrClock-Subscription-Template">
-      <img src="https://img.shields.io/github/stars/Mrclocks/MrClock-Subscription-Template?style=social" alt="ستاره‌های گیت‌هاب">
+    <a href="https://github.com/Mrclocks/Pro-Subscription-Template">
+      <img src="https://img.shields.io/github/stars/Mrclocks/Pro-Subscription-Template?style=social" alt="ستاره‌های گیت‌هاب">
   </p>
   
   <p dir="rtl">با ❤️ توسط MrClock</p>
