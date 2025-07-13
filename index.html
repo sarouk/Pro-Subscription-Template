@@ -1729,7 +1729,7 @@
     <nav class="connection-buttons">
       <template x-if="guideMode === 'easy'">
         <div class="w-100 d-flex gap-3">
-          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/Your-TELEGRAM-ID" role="button" rel="noopener noreferrer" target="_blank">
+          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/MrClocks" role="button" rel="noopener noreferrer" target="_blank">
             <svg class='bi me-1'><use href='#info-circle'></use></svg>
             <span class="app-texts" x-text="translations[currentLang].telegramSupport"></span>
           </a>
@@ -1742,7 +1742,7 @@
       
       <template x-if="guideMode === 'advanced'">
         <div class="w-100 d-flex gap-3">
-          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/Your-TELEGRAM-ID" role="button" rel="noopener noreferrer" target="_blank">
+          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/MrClocks" role="button" rel="noopener noreferrer" target="_blank">
             <svg class='bi me-1'><use href='#info-circle'></use></svg>
             <span class="app-texts" x-text="translations[currentLang].telegramSupport"></span>
           </a>
@@ -2557,8 +2557,8 @@
                                   </div>
                                   <div class="config-link-buttons">
                                     <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="importApp('happ'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                       :href="`happ://add/${'{{ user.subscription_url }}'}`" 
+                                       @click.prevent="window.location.href = `happ://add/${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
                                     </a>
@@ -2667,8 +2667,8 @@
                                   </div>
                                   <div class="config-link-buttons">
                                     <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="importApp('happ'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                       :href="`happ://add/${'{{ user.subscription_url }}'}`" 
+                                       @click.prevent="window.location.href = `happ://add/${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
                                     </a>
