@@ -1,6 +1,6 @@
 <div align="center">
   
-![Preview](IMG_7595.png)
+![Preview](template_screen.png)
 
 # 📌 قالب صفحه کاربری پنل مرزبان نسخه شخصی سازی شده
 
