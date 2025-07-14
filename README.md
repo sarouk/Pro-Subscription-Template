@@ -44,7 +44,7 @@
 </div>
 
 ```bash
-sudo wget -N -P /var/lib/marzban/templates/subscription/ https://raw.githubusercontent.com/Mrclocks/Pro-Subscription-Template/main/index.html
+sudo wget -N -P /var/lib/marzban/templates/subscription/ https://raw.githubusercontent.com/sarouk/Pro-Subscription-Template/main/index.html
 ```
 
 <div>
@@ -114,6 +114,6 @@ marzban restart
   
   <p>
     <a href="https://github.com/Mrclocks/Pro-Subscription-Template">
-      <img src="https://img.shields.io/github/stars/Mrclocks/Pro-Subscription-Template?style=social" alt="ستاره‌های گیت‌هاب">
+      <img src="https://img.shields.io/github/stars/sarouk/Pro-Subscription-Template?style=social" alt="ستاره‌های گیت‌هاب">
   </p>
   
