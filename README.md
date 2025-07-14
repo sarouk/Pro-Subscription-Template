@@ -1,6 +1,6 @@
 <div align="center">
   
-![Preview](template_screen.png)
+![Preview](IMG_7595.png)
 
 # 📌 قالب صفحه کاربری پنل مرزبان نسخه شخصی سازی شده
 
@@ -10,7 +10,7 @@
 ## 🎨 معرفی
 
 <p dir="rtl">
-⚠️ این پروژه نسخه‌ی اصلی نیست و تغییر یافته‌ای از (https://github.com/Mrclocks/Pro-Subscription-Template) می‌باشد.
+⚠️ این پروژه نسخه‌ی اصلی نیست و تغییر یافته‌ای از  https://github.com/Mrclocks/Lite-Subscription-Template می‌باشد.
 </p>
 
 
