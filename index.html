@@ -1753,7 +1753,7 @@
       
       <template x-if="guideMode === 'advanced'">
         <div class="w-100 d-flex gap-3">
-          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/sartch_shopbot" role="button" rel="noopener noreferrer" target="_blank">
+          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/sartch_shopbot" role="button" rel="noopener noreferrer" target="_blank"> 
             <svg class='bi me-1'><use href='#info-circle'></use></svg>
             <span class="app-texts" x-text="translations[currentLang].telegramSupport"></span>
           </a>
@@ -1802,10 +1802,10 @@
     }
   }
 
-  // بار اول مقدار رو بگیر و ست کن
+
   updateTrafficTexts(document.documentElement.lang || 'fa');
 
-  // پایش تغییرات اتربیوت lang در تگ html
+ 
   const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       if(mutation.attributeName === 'lang') {
