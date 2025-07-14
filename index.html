@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="fa" dir="rtl" data-bs-theme="dark">
 <head>
+  
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ناحیه کاربری</title>
@@ -18,10 +23,10 @@
   <style>
     :root {
       --bs-body-font-family: "Vazirmatn", system-ui, -apple-system, sans-serif;
-      --bs-body-bg: #0a101f;
-      --my-gray: #131c36;
-      --my-dark-gray: #1c2649;
-      --my-alpha-gray: #2a3356;
+      --bs-body-bg: #060607;
+      --my-gray: #222222;
+      --my-dark-gray: #060607;
+      --my-alpha-gray: #1a1a1a;
       --my-heading: #ffffff;
       --my-content: #d4d8f0;
       --btn-text-color: #ffffff;
@@ -83,6 +88,8 @@
       margin: 0 auto;
     }
 
+
+    
     .page-header {
       display: flex;
       align-items: center;
@@ -552,19 +559,9 @@
       color: white !important;
       font-weight: 500 !important;
     }
-    .guide-mode-btn.advanced-active {
-      background-color: var(--duration-icon-color) !important;
-      color: white !important;
-      font-weight: 500 !important;
-    }
     
     .guide-mode-btn:hover:not(.active) {
       background-color: var(--my-dark-gray) !important;
-    }
-    .guide-mode-btn.advanced-active:hover,
-    .guide-mode-btn.advanced-active {
-      background-color: var(--duration-icon-color) !important;
-      color: white !important;
     }
 
     .accordion {
@@ -886,7 +883,7 @@
     window.app = {
       darkMode: true,
       currentLang: 'fa',
-      avatarUrl: 'https://i.postimg.cc/jdrjCggH/MrClock.jpg',
+      avatarUrl: 'https://i.postimg.cc/m2jjDdRQ/IMG-3773.png',
       guideMode: 'easy',
       advancedContentLoaded: false,
       subscription_url: '{{ user.subscription_url }}',
@@ -959,8 +956,7 @@
           unknown: 'نامشخص',
           remaining_time: 'زمان باقیمانده',
           remaining_traffic: 'ترافیک باقیمانده',
-          days_remaining: 'روز باقیمانده',
-          allConfigs: 'تمام کانفیگ ها'
+          days_remaining: 'روز باقیمانده'
         },
         en: {
           subscriptionInfo: 'Subscription Page',
@@ -1009,7 +1005,6 @@
           easyMode: 'Easy',
           advancedMode: 'Advanced',
           windowsApps: 'Windows Apps',
-          allConfigs: 'All Configs',
           androidApps: 'Android Apps',
           appleApps: 'iPhone Apps',
           macApps: 'Mac Apps',
@@ -1571,6 +1566,13 @@
         <h1 class="main-texts fw-bold mb-0" x-text="translations[currentLang].subscriptionInfo"></h1>
       </div>
       
+
+
+
+
+
+
+      
       <div class="header-buttons-section">
         <button class="lang-toggle" @click="toggleLang">
           <svg class="bi"><use href="#translate"></use></svg>
@@ -1588,7 +1590,7 @@
           <span class="app-texts" x-text="currentLang === 'fa' ? 'حالت آسان' : 'Easy Mode'"></span>
         </button>
         <button class="btn guide-mode-btn" 
-                :class="guideMode === 'advanced' ? 'advanced-active' : ''" 
+                :class="guideMode === 'advanced' ? 'active' : ''" 
                 @click="guideMode = 'advanced'; advancedContentLoaded = true">
                 <span class="app-texts" x-text="currentLang === 'fa' ? 'حالت پیشرفته' : 'Advanced Mode'"></span>
         </button>
@@ -1623,6 +1625,12 @@
             </div>
           </article>
         </div>
+        
+
+
+
+
+
         
         <div class="col-12 col-md-6">
           <article class="my-block" x-data="{
@@ -1673,7 +1681,12 @@
               <svg class="bi"><use href="#clock"></use></svg>
               <h3 class="box-texts mb-0" x-text="translations[currentLang].duration"></h3>
             </div>
-            <p class="sub-texts text-truncate mb-0" x-text="getExpireText(expire)"></p>
+            <p class="sub-texts text-truncate mb-0">
+  <span x-text="getExpireText(expire)"></span>
+  |
+  <span x-text="getRemainingDays(expire)"></span>
+</p>
+
           </article>
         </div>
         
@@ -1686,6 +1699,8 @@
             <div class="d-flex flex-row align-items-center mb-3">
               <svg class="bi"><use href="#arrow-down-circle"></use></svg>
               <h3 class="box-texts mb-0" x-text="translations[currentLang].traffic"></h3>
+
+              
             </div>
             <p class="sub-texts text-truncate mb-0" x-html="getTrafficText(usedTraffic, dataLimit)"></p>
           </article>
@@ -1702,6 +1717,12 @@
           </article>
         </div>
       
+
+
+
+
+
+        
         <div class="col">
           <article class="my-block" x-data="favoriteLocationData">
             <h2 class="visually-hidden">لوکیشن پرمصرف</h2>
@@ -1725,24 +1746,14 @@
         </div>
       </section>
     </template>
-    
-    <nav class="connection-buttons">
-      <template x-if="guideMode === 'easy'">
-        <div class="w-100 d-flex gap-3">
-          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/YOUR-TELEGRAM-ID" role="button" rel="noopener noreferrer" target="_blank">
-            <svg class='bi me-1'><use href='#info-circle'></use></svg>
-            <span class="app-texts" x-text="translations[currentLang].telegramSupport"></span>
-          </a>
-          <button class="btn my-btn-outline flex-grow-1" data-bs-toggle="modal" data-bs-target="#get-link-modal">
-            <svg class='bi me-1'><use href='#filter-circle'></use></svg>
-            <span class="app-texts" x-text="translations[currentLang].showConfigs"></span>
-          </button>
-        </div>
-      </template>
+
+
+
+
       
       <template x-if="guideMode === 'advanced'">
         <div class="w-100 d-flex gap-3">
-          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/YOUR-TELEGRAM-ID" role="button" rel="noopener noreferrer" target="_blank">
+          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/sartch_shopbot" role="button" rel="noopener noreferrer" target="_blank">
             <svg class='bi me-1'><use href='#info-circle'></use></svg>
             <span class="app-texts" x-text="translations[currentLang].telegramSupport"></span>
           </a>
@@ -1753,6 +1764,64 @@
         </div>
       </template>
     </nav>
+
+
+
+
+
+<div class="row mt-4">
+  <div class="col-12 mb-4">
+    <article 
+      class="my-block d-flex flex-column align-items-center text-center" 
+      x-data="userTrafficChart" 
+      x-init="initChart"
+      id="traffic-article"
+    >
+      <h2 class="visually-hidden">نمودار مصرف حجم</h2>
+      <div class="d-flex flex-row align-items-center mb-3 w-100 justify-content-start">
+        <svg class="bi"><use href="#arrow-down-circle"></use></svg>
+        <h3 class="box-texts mb-0">ترافیک مصرف‌شده</h3>
+      </div>
+      <canvas id="user-traffic-chart" width="260" height="260"></canvas>
+    </article>
+  </div>
+</div>
+
+<script>
+  function updateTrafficTexts(lang) {
+    const article = document.getElementById('traffic-article');
+    const titleEl = article.querySelector('h2.visually-hidden');
+    const h3El = article.querySelector('h3.box-texts');
+
+    if(lang === 'en') {
+      titleEl.textContent = 'Data Usage Chart';
+      h3El.textContent = 'Used Traffic';
+    } else {
+      titleEl.textContent = 'نمودار مصرف حجم';
+      h3El.textContent = 'ترافیک مصرف‌شده';
+    }
+  }
+
+  // بار اول مقدار رو بگیر و ست کن
+  updateTrafficTexts(document.documentElement.lang || 'fa');
+
+  // پایش تغییرات اتربیوت lang در تگ html
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if(mutation.attributeName === 'lang') {
+        const newLang = document.documentElement.lang || 'fa';
+        updateTrafficTexts(newLang);
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, { attributes: true });
+</script>
+
+
+
+
+
 
     <section class="connection-guide">
       <template x-if="guideMode === 'easy'">
@@ -1775,20 +1844,6 @@
           </span>
         </span>
       </div>
-
-      <!-- Instructional text below connection guide, only in easy mode -->
-      <template x-if="guideMode === 'easy'">
-        <div class="col-12">
-          <div class="easy-instruction-box" style="border: 2px solid #198754; border-radius: 12px; background-color: rgba(25, 135, 84, 0.08); padding: 1rem; margin-bottom: 1rem;">
-            <p class="sub-texts mb-0" x-show="currentLang === 'fa'">
-              جهت راه اندازی با توجه به عدد های بالای هر قسمت و برنامه ها و تنظیماتی که برای شما مشخص شده گام به گام پیش بروید . اگر به برنامه های دیگر نیاز داشتید می توانید از بالای همین صفحه روی حالت پیشرفته کلیک کنید .
-            </p>
-            <p class="sub-texts mb-0" x-show="currentLang !== 'fa'" style="direction: ltr; text-align: left;">
-              To set up, follow the steps according to the numbers and the apps/settings specified for you above each section. If you need other apps, you can click on Advanced Mode at the top of this page.
-            </p>
-          </div>
-        </div>
-      </template>
     </section>
     
     <div class="modal my-modal fade" id="get-link-modal" tabindex="-1">
@@ -1863,17 +1918,6 @@
           }">
             <p class="sub-texts mb-3" x-text="translations[currentLang].configLinksDesc"></p>
             <div class="mb-3">
-
-              <div class="config-link">
-                <div class="config-link-name"><span x-text="translations[currentLang].allConfigs"></span></div>
-                <div class="config-link-buttons">
-                  <button class="config-link-copy-btn" 
-                    @click="copyLink(links.join('\n'), $el)"
-                    x-html="`<svg class='bi' width='14' height='14'><use href='#copy'></use></svg> <span>${translations[currentLang].copy}</span>`">
-                  </button>
-                </div>
-              </div>
-
               <div class="config-link">
                 <div class="config-link-name"><span x-text="translations[currentLang].subscriptionLink"></span></div>
                 <div class="config-link-buttons">
@@ -1972,30 +2016,6 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش ورج' : 'Clash Verge'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.3.1/Clash.Verge_2.3.1_x64-setup.exe" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.3.1/Clash.Verge_2.3.1_x64-setup.exe', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'اف ال کلش' : 'FLClash'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://github.com/chen08209/FlClash/releases/download/v0.8.86/FlClash-0.8.86-windows-amd64-setup.exe" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/chen08209/FlClash/releases/download/v0.8.86/FlClash-0.8.86-windows-amd64-setup.exe', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
                                     <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
                                   </div>
                                   <div class="config-link-buttons">
@@ -2032,10 +2052,22 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش ورج' : 'Clash Verge'"></span>
                                   </div>
                                   <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x86.exe" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x86.exe', '_blank'), 300);">
+                                    <a class="download-button app-texts" href="https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.3.1/Clash.Verge_2.3.1_x64-setup.exe" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.3.1/Clash.Verge_2.3.1_x64-setup.exe', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#microsoft"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'اف ال کلش' : 'FLClash'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/chen08209/FlClash/releases/download/v0.8.86/FlClash-0.8.86-windows-amd64-setup.exe" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/chen08209/FlClash/releases/download/v0.8.86/FlClash-0.8.86-windows-amd64-setup.exe', '_blank'), 300);">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
                                     </a>
@@ -2059,30 +2091,6 @@
                           <template x-if="acc.id === 'androidAppsCollapse'">
                             <div>
                               <div class="download-buttons">
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2ری' : 'V2rayNG'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://github.com/2dust/v2rayNG/releases/download/1.10.7/v2rayNG_1.10.7_universal.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open(https://github.com/2dust/v2rayNG/releases/download/1.10.7/v2rayNG_1.10.7_universal.apk', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'نکوباکس' : 'Nekobox'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://github.com/MatsuriDayo/NekoBoxForAndroid/releases/download/1.3.9/NekoBox-1.3.9-arm64-v8a.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/MatsuriDayo/NekoBoxForAndroid/releases/download/1.3.9/NekoBox-1.3.9-arm64-v8a.apk', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
-                                  </div>
-                                </div>
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
@@ -2110,10 +2118,34 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2باکس' : 'V2Box'"></span>
                                   </div>
                                   <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk', '_blank'), 300);">
+                                    <a class="download-button app-texts" href="https://play.google.com/store/apps/details?id=dev.hexasoftware.v2box&hl=fa" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://play.google.com/store/apps/details?id=dev.hexasoftware.v2box&hl=fa', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'نکوباکس' : 'Nekobox'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/MatsuriDayo/NekoBoxForAndroid/releases/download/1.3.9/NekoBox-1.3.9-arm64-v8a.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/MatsuriDayo/NekoBoxForAndroid/releases/download/1.3.9/NekoBox-1.3.9-arm64-v8a.apk', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#android"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2ری‌' : 'V2rayNG'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://github.com/2dust/v2rayNG/releases/download/1.10.7/v2rayNG_1.10.7_universal.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open(https://github.com/2dust/v2rayNG/releases/download/1.10.7/v2rayNG_1.10.7_universal.apk', '_blank'), 300);">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
                                     </a>
@@ -2140,10 +2172,10 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
                                   </div>
                                   <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/sing-box-vt/id6673731168" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/sing-box-vt/id6673731168', '_blank'), 300);">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532', '_blank'), 300);">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
                                     </a>
@@ -2152,10 +2184,10 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
                                   </div>
                                   <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://apps.apple.com/app/id6504287215" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/app/id6504287215', '_blank'), 300);">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/sing-box-vt/id6673731168" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/sing-box-vt/id6673731168', '_blank'), 300);">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
                                     </a>
@@ -2176,18 +2208,6 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کرینگ' : 'Karing'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://apps.apple.com/app/id6472431552" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/app/id6472431552', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
                                     <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2باکس' : 'V2Box'"></span>
                                   </div>
                                   <div class="config-link-buttons">
@@ -2200,46 +2220,10 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش می' : 'Clash Mi'"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
                                   </div>
                                   <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/clash-mi/id6744321968" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/clash-mi/id6744321968', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'شدوراکت' : 'Shadowrocket'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/shadowrocket/id932747118" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/shadowrocket/id932747118', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'استش' : 'Stash'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349', '_blank'), 300);">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/app/id6504287215" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/app/id6504287215', '_blank'), 300);">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
                                     </a>
@@ -2260,10 +2244,34 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'استش' : 'Stash'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
                                     <span class="app-texts" x-text="currentLang === 'fa' ? 'اوتلاین' : 'Outline'"></span>
                                   </div>
                                   <div class="config-link-buttons">
                                     <a class="download-button app-texts" href="https://apps.apple.com/us/app/outline-secure-internet-access/id1356177741" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/outline-secure-internet-access/id1356177741', '_blank'), 300);">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کرینگ' : 'Karing'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="download-button app-texts" href="https://apps.apple.com/app/id6472431552" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/app/id6472431552', '_blank'), 300);">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
                                     </a>
@@ -2278,10 +2286,10 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
                                   </div>
                                   <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://github.com/SagerNet/sing-box/releases/download/v1.11.14/SFM-1.11.14-universal.dmg" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/SagerNet/sing-box/releases/download/v1.11.14/SFM-1.11.14-universal.dmg', '_blank'), 300);">
+                                    <a class="download-button app-texts" href="https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-MacOS.dmg" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-MacOS.dmg', '_blank'), 300);">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
                                     </a>
@@ -2290,10 +2298,10 @@
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
                                   </div>
                                   <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-MacOS.dmg" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/hiddify/hiddify-next/releases/latest/download/Hiddify-MacOS.dmg', '_blank'), 300);">
+                                    <a class="download-button app-texts" href="https://github.com/SagerNet/sing-box/releases/download/v1.11.14/SFM-1.11.14-universal.dmg" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/SagerNet/sing-box/releases/download/v1.11.14/SFM-1.11.14-universal.dmg', '_blank'), 300);">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
                                     </a>
@@ -2318,18 +2326,6 @@
                                   </div>
                                   <div class="config-link-buttons">
                                     <a class="download-button app-texts" href="https://github.com/chen08209/FlClash/releases/download/v0.8.86/FlClash-0.8.86-macos-amd64.dmg" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://github.com/chen08209/FlClash/releases/download/v0.8.86/FlClash-0.8.86-macos-amd64.dmg', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#apple"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2باکس' : 'V2Box'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://apps.apple.com/us/app/v2box/id6446814690" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open('https://apps.apple.com/us/app/v2box/id6446814690', '_blank'), 300);">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
                                     </a>
@@ -2475,36 +2471,6 @@
                           <template x-if="acc.id === 'windowsSettingsCollapse'">
                             <div>
                               <div class="download-buttons">
-                                <div class="config-link" style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                  <div class="config-link-name" style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span x-text="translations[currentLang].subscriptionLink"></span>
-                                  </div>
-                                  <div class="config-link-buttons" style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <button class="config-link-qr-btn" @click="$dispatch('show-qr', {url: $store.app.subscription_url, name: translations[currentLang].subscriptionLink})">
-                                      <svg class="bi"><use href="#qr-code"></use></svg>
-                                    </button>
-                                    <button class="config-link-copy-btn"
-                                      @click="copyLink($store.app.subscription_url, $el)"
-                                      x-html="`<svg class='bi' width='16' height='16'><use href='#copy'></use></svg> <span>${translations[currentLang].copy}</span>`">
-                                    </button>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش' : 'Clash'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="importApp('clash'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
@@ -2514,6 +2480,20 @@
                                     <a class="settings-button app-texts" 
                                        href="#" 
                                        @click.prevent="importApp('hiddify'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'سینگ باکس' : 'Sing-box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('singbox'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
                                     </a>
@@ -2534,7 +2514,22 @@
                                     </a>
                                   </div>
                                 </div>
-
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش ورج' : 'Clash Verge'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('clash'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
@@ -2549,72 +2544,12 @@
                                     </a>
                                   </div>
                                 </div>
-
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="settings-button app-texts" 
-                                       :href="`happ://add/${'{{ user.subscription_url }}'}`" 
-                                       @click.prevent="window.location.href = `happ://add/${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
-                                    </a>
-                                  </div>
-                                </div>
                               </div>
                             </div>
                           </template>
                           <template x-if="acc.id === 'androidSettingsCollapse'">
                             <div>
                               <div class="download-buttons">
-                                <div class="config-link" style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                  <div class="config-link-name" style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span x-text="translations[currentLang].subscriptionLink"></span>
-                                  </div>
-                                  <div class="config-link-buttons" style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <button class="config-link-qr-btn" @click="$dispatch('show-qr', {url: $store.app.subscription_url, name: translations[currentLang].subscriptionLink})">
-                                      <svg class="bi"><use href="#qr-code"></use></svg>
-                                    </button>
-                                    <button class="config-link-copy-btn"
-                                      @click="copyLink($store.app.subscription_url, $el)"
-                                      x-html="`<svg class='bi' width='16' height='16'><use href='#copy'></use></svg> <span>${translations[currentLang].copy}</span>`">
-                                    </button>
-                                  </div>
-                                </div>
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2ری' : 'V2rayNG'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="navigator.clipboard.writeText('{{ user.subscription_url }}'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].copied}</span>`)">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'نکوباکس' : 'Nekobox'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="window.location.href = `nekobox://import?url=${encodeURIComponent('{{ user.subscription_url }}')}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
@@ -2629,7 +2564,6 @@
                                     </a>
                                   </div>
                                 </div>
-
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
@@ -2644,7 +2578,37 @@
                                     </a>
                                   </div>
                                 </div>
-
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2باکس' : 'V2Box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `v2box://import-remote-profile?url=${'{{ user.subscription_url }}'}#{{ user.username }}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2ری' : 'V2ray'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="navigator.clipboard.writeText('{{ user.subscription_url }}'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].copied}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
@@ -2659,16 +2623,16 @@
                                     </a>
                                   </div>
                                 </div>
-
+                                
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'نکوباکس' : 'Nekobox'"></span>
                                   </div>
                                   <div class="config-link-buttons">
                                     <a class="settings-button app-texts" 
-                                       :href="`happ://add/${'{{ user.subscription_url }}'}`" 
-                                       @click.prevent="window.location.href = `happ://add/${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                       href="#" 
+                                       @click.prevent="window.location.href = `nekobox://import?url=${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
                                     </a>
@@ -2680,19 +2644,18 @@
                           <template x-if="acc.id === 'appleSettingsCollapse'">
                             <div>
                               <div class="download-buttons">
-                                <div class="config-link" style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                  <div class="config-link-name" style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div class="config-link">
+                                  <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span x-text="translations[currentLang].subscriptionLink"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
                                   </div>
-                                  <div class="config-link-buttons" style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <button class="config-link-qr-btn" @click="$dispatch('show-qr', {url: $store.app.subscription_url, name: translations[currentLang].subscriptionLink})">
-                                      <svg class="bi"><use href="#qr-code"></use></svg>
-                                    </button>
-                                    <button class="config-link-copy-btn"
-                                      @click="copyLink($store.app.subscription_url, $el)"
-                                      x-html="`<svg class='bi' width='16' height='16'><use href='#copy'></use></svg> <span>${translations[currentLang].copy}</span>`">
-                                    </button>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('hiddify'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
                                   </div>
                                 </div>
                                 <div class="config-link">
@@ -2710,66 +2673,6 @@
                                   </div>
                                 </div>
                                 
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="window.location.href = `happ://add/${'{{ user.subscription_url }}'}`;handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'استریسند' : 'Streisand'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="window.location.href = `streisand://import/sub?url=${encodeURIComponent('{{ user.subscription_url }}')}`;handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'کلش' : 'Clash'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="importApp('clash'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="importApp('hiddify'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
@@ -2784,25 +2687,84 @@
                                     </a>
                                   </div>
                                 </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2باکس' : 'V2Box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `v2box://import-remote-profile?url=${'{{ user.subscription_url }}'}#{{ user.username }}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'استریسند' : 'Streisand'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `streisand://import?url=${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هپ' : 'Happ'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="window.location.href = `happ://install/add?url=${'{{ user.subscription_url }}'}`; handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'استش' : 'Stash'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('clash'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </template>
                           <template x-if="acc.id === 'macSettingsCollapse'">
                             <div>
                               <div class="download-buttons">
-                                <div class="config-link" style="margin-bottom: 1rem; display: flex; align-items: center;">
-                                  <div class="config-link-name" style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div class="config-link">
+                                  <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span x-text="translations[currentLang].subscriptionLink"></span>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
                                   </div>
-                                  <div class="config-link-buttons" style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <button class="config-link-qr-btn" @click="$dispatch('show-qr', {url: $store.app.subscription_url, name: translations[currentLang].subscriptionLink})">
-                                      <svg class="bi"><use href="#qr-code"></use></svg>
-                                    </button>
-                                    <button class="config-link-copy-btn"
-                                      @click="copyLink($store.app.subscription_url, $el)"
-                                      x-html="`<svg class='bi' width='16' height='16'><use href='#copy'></use></svg> <span>${translations[currentLang].copy}</span>`">
-                                    </button>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('hiddify'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
                                   </div>
                                 </div>
                                 <div class="config-link">
@@ -2819,22 +2781,7 @@
                                     </a>
                                   </div>
                                 </div>
-
-                                <div class="config-link">
-                                  <div class="config-link-name">
-                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
-                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'هیدیفای' : 'Hiddify'"></span>
-                                  </div>
-                                  <div class="config-link-buttons">
-                                    <a class="settings-button app-texts" 
-                                       href="#" 
-                                       @click.prevent="importApp('hiddify'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
-                                    </a>
-                                  </div>
-                                </div>
-
+                                
                                 <div class="config-link">
                                   <div class="config-link-name">
                                     <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
@@ -2844,6 +2791,21 @@
                                     <a class="settings-button app-texts" 
                                        href="#" 
                                        @click.prevent="importApp('clash'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
+                                      <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
+                                      <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                
+                                <div class="config-link">
+                                  <div class="config-link-name">
+                                    <svg class="bi" width="16" height="16"><use href="#gear-fill"></use></svg>
+                                    <span class="app-texts" x-text="currentLang === 'fa' ? 'وی۲باکس' : 'V2Box'"></span>
+                                  </div>
+                                  <div class="config-link-buttons">
+                                    <a class="settings-button app-texts" 
+                                       href="#" 
+                                       @click.prevent="importApp('v2ray'); handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].enter}</span>`)">
                                       <svg class="bi" width="16" height="16"><use href="#cloud-plus"></use></svg>
                                       <span class="app-texts" x-text="translations[currentLang].settings || 'تنظیمات'"></span>
                                     </a>
@@ -2864,24 +2826,143 @@
       </div>
     </div>
   </main>
- 
-  <div class="modal qr-modal fade" id="qr-modal" tabindex="-1"
-       x-data="{ title: '' }" @show-qr-title.window="title = $event.detail">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header d-flex justify-content-between align-items-center">
-          <h2 class="app-texts mb-0" id="qrModalLabel"><span x-text="title"></span></h2>
-          <button type="button" 
-                  class="modal-close-btn" 
-                  data-bs-dismiss="modal"
-                  x-text="$store.app.translations[$store.app.currentLang].close">
-          </button>
-        </div>
-        <div class="modal-body">
-          <div id="qr-canvas" role="img"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('userTrafficChart', () => ({
+      chart: null,
+      lastTheme: null,
+      lastLang: null,
+      themeChangeTimeout: null,
+      isBuilding: false,
+
+      getTextColor() {
+        const theme = document.documentElement.getAttribute('data-bs-theme');
+        return theme === 'dark' ? '#ffffff' : '#1a1b45';
+      },
+
+      async buildChart() {
+        if (this.isBuilding) return;
+        this.isBuilding = true;
+
+        const used = {{ user.used_traffic }};
+        const limit = {{ user.data_limit or 0 }};
+        const usedPercent = limit > 0 ? Math.round((used / limit) * 100) : 0;
+        const remaining = Math.max(0, limit - used);
+
+        await new Promise(resolve => requestAnimationFrame(resolve));
+
+        const canvas = document.getElementById('user-traffic-chart');
+        if (!canvas) {
+          this.isBuilding = false;
+          return;
+        }
+
+        const ctx = canvas.getContext('2d');
+        try { ctx.clearRect(0, 0, canvas.width, canvas.height); } catch {}
+        try { if (this.chart) this.chart.destroy(); } catch {}
+
+        const textColor = this.getTextColor();
+        const lang = document.documentElement.getAttribute('lang');
+        const labels = lang === 'en'
+          ? ['Used', 'Remaining']
+          : ['مصرف‌شده', 'باقی‌مانده'];
+
+        this.chart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: [used, remaining],
+              backgroundColor: ['#e64a4a', '#17c964'],
+              borderWidth: 0,
+              hoverOffset: 10,
+              cutout: '80%',
+              spacing: 2
+            }]
+          },
+          options: {
+            responsive: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  color: textColor,
+                  font: { size: 14 },
+                  padding: 16,
+                  boxWidth: 18,
+                  boxHeight: 18,
+                  usePointStyle: true
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label(ctx) {
+                    const val = ctx.parsed;
+                    const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+                    let i = 0, num = val;
+                    while (num >= 1024 && i < units.length - 1) {
+                      num /= 1024;
+                      i++;
+                    }
+                    return `${ctx.label}: ${num.toFixed(2)} ${units[i]}`;
+                  }
+                }
+              }
+            }
+          },
+          plugins: [{
+            id: 'centerText',
+            beforeDraw(chart) {
+              const ctx = chart.ctx;
+              const { width, height } = chart;
+              const theme = document.documentElement.getAttribute('data-bs-theme');
+              const textColor = theme === 'dark' ? '#ffffff' : '#1a1b45';
+
+              ctx.restore();
+              ctx.font = 'bold 1.6rem Vazirmatn, sans-serif';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillStyle = textColor;
+
+              const text = `${usedPercent}%`;
+              const x = width / 2;
+              const y = height / 2 - 6;
+              ctx.fillText(text, x, y);
+              ctx.save();
+            }
+          }]
+        });
+
+        this.isBuilding = false;
+      },
+
+      initChart() {
+        this.lastTheme = document.documentElement.getAttribute('data-bs-theme');
+        this.lastLang = document.documentElement.getAttribute('lang');
+        this.buildChart();
+
+        const observer = new MutationObserver(() => {
+          clearTimeout(this.themeChangeTimeout);
+
+          this.themeChangeTimeout = setTimeout(() => {
+            const newTheme = document.documentElement.getAttribute('data-bs-theme');
+            const newLang = document.documentElement.getAttribute('lang');
+
+            if (newTheme !== this.lastTheme || newLang !== this.lastLang) {
+              this.lastTheme = newTheme;
+              this.lastLang = newLang;
+              this.buildChart();
+            }
+          }, 300);
+        });
+
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['data-bs-theme', 'lang']
+        });
+      }
+    }));
+  });
+</script>
 </body>
 </html>
