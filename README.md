@@ -102,7 +102,7 @@ marzban restart
   <p dir="rtl">🌟 اگر از این پروژه خوشتان آمد، لطفاً به آن ستاره دهید 🌟</p>
   
   <p>
-    <a href="https://github.com/Mrclocks/Pro-Subscription-Template">
+    <a href="https://github.com/sarouk/Pro-Subscription-Template">
       <img src="https://img.shields.io/github/stars/sarouk/Pro-Subscription-Template?style=social" alt="ستاره‌های گیت‌هاب">
   </p>
 
