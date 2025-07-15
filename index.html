@@ -881,6 +881,15 @@
 
   document.addEventListener('alpine:init', () => {
     window.app = {
+      links: [
+        // نمونه کانفیگ‌ها، مقادیر واقعی را جایگزین کنید
+        'vmess://example1',
+        'vless://example2',
+        'trojan://example3',
+        'ss://example4',
+        'vmess://example5',
+        'vless://example6'
+      ],
       darkMode: true,
       currentLang: 'fa',
       avatarUrl: 'https://i.postimg.cc/m2jjDdRQ/IMG-3773.png',
@@ -1753,7 +1762,7 @@
       
       <template x-if="guideMode === 'advanced'">
         <div class="w-100 d-flex gap-3">
-          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/sartch_shopbot" role="button" rel="noopener noreferrer" target="_blank"> 
+          <a class="btn my-btn-outline flex-grow-1" href="https://t.me/sartch_shopbot" role="button" rel="noopener noreferrer" target="_blank">
             <svg class='bi me-1'><use href='#info-circle'></use></svg>
             <span class="app-texts" x-text="translations[currentLang].telegramSupport"></span>
           </a>
@@ -1767,10 +1776,9 @@
 
 
 
-
-
 <div class="row mt-4">
-  <div class="col-12 mb-4">
+ 
+  <div class="col-md-6 mb-4">
     <article 
       class="my-block d-flex flex-column align-items-center text-center" 
       x-data="userTrafficChart" 
@@ -1785,38 +1793,165 @@
       <canvas id="user-traffic-chart" width="260" height="260"></canvas>
     </article>
   </div>
+
+  
+  <div class="col-md-6 mb-4">
+    <article 
+      class="my-block d-flex flex-column align-items-center text-center" 
+      id="location-usage-article"
+    >
+      <h2 class="visually-hidden">نمودار مصرف هر لوکیشن</h2>
+      <div class="d-flex flex-row align-items-center mb-3 w-100 justify-content-start">
+        <svg class="bi"><use href="#globe-americas"></use></svg>
+        <h3 class="box-texts mb-0">مصرف هر لوکیشن</h3>
+      </div>
+      <canvas id="location-usage-chart" width="260" height="260"></canvas>
+    </article>
+  </div>
 </div>
-
 <script>
-  function updateTrafficTexts(lang) {
-    const article = document.getElementById('traffic-article');
-    const titleEl = article.querySelector('h2.visually-hidden');
-    const h3El = article.querySelector('h3.box-texts');
+document.addEventListener('DOMContentLoaded', async () => {
+  const subUrl = window?.app?.subscription_url;
+  if (!subUrl) return;
 
-    if(lang === 'en') {
-      titleEl.textContent = 'Data Usage Chart';
-      h3El.textContent = 'Used Traffic';
-    } else {
-      titleEl.textContent = 'نمودار مصرف حجم';
-      h3El.textContent = 'ترافیک مصرف‌شده';
+  let usages = [];
+  try {
+    const usageRes = await fetch(`${subUrl}/usage`);
+    if (usageRes.ok) {
+      const { usages: u } = await usageRes.json();
+      usages = u || [];
     }
+  } catch {}
+
+  const toGB = (val) => {
+    if (typeof val === 'string') {
+      const match = val.match(/([\d.]+)\s*(GB|MB|TB)/i);
+      if (match) {
+        const num = parseFloat(match[1]);
+        const unit = match[2].toUpperCase();
+        return unit === 'TB' ? num * 1024 : unit === 'MB' ? num / 1024 : num;
+      }
+    } else if (typeof val === 'number') {
+      return val / (1024 * 1024 * 1024);
+    }
+    return 0;
+  };
+
+  const centerTextPlugin = {
+    id: 'centerText',
+    afterDraw(chart) {
+      const { width, height } = chart;
+      const ctx = chart.ctx;
+      const totalServers = chart.data.labels.length;
+      const text = `${totalServers} لوکیشن`;
+
+      ctx.save();
+      ctx.font = '600 22px Vazirmatn, sans-serif';
+      ctx.fillStyle = getComputedStyle(document.documentElement)
+        .getPropertyValue('--my-content') || (isDark() ? '#fff' : '#1a1b45');
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, width / 2, height / 2.25);
+      ctx.restore();
+    }
+  };
+
+  let chart = null;
+
+  function isDark() {
+    return document.documentElement.getAttribute('data-bs-theme') === 'dark';
   }
 
+  function buildChart() {
+    if (!usages.length) return;
 
-  updateTrafficTexts(document.documentElement.lang || 'fa');
+    const locationMap = {};
+usages.forEach(u => {
+  let name = u.node_name || u.server || '';
+  const flagMatch = name.match(/(🇦🇪|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇺🇸|🇨🇦|🇯🇵|🇹🇷|🇮🇷|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇧🇪|🇦🇺|🇫🇮|🇷🇺|🇧🇷|🇸🇬|🇲🇾|🇮🇳)/);
+  let key = flagMatch ? flagMatch[1] : name.split(' ')[0] || 'Other';
 
- 
-  const observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-      if(mutation.attributeName === 'lang') {
-        const newLang = document.documentElement.lang || 'fa';
-        updateTrafficTexts(newLang);
-      }
+  const traffic = toGB(u.used_traffic);
+  if (traffic <= 0.05) return; 
+
+  locationMap[key] = (locationMap[key] || 0) + traffic;
+});
+
+
+    const locLabels = Object.keys(locationMap);
+    const locData = Object.values(locationMap).map(v => v.toFixed(2));
+
+    const locColors = [
+      '#ffa600', '#17c964',  '#cccccc',
+      '#ff4952', '#64b5f6', 
+    ];
+
+    const textColor = isDark() ? '#ffffff' : '#1a1b45';
+
+    const canvas = document.getElementById('location-usage-chart');
+    const ctx = canvas.getContext('2d');
+    try { if (chart) chart.destroy(); } catch {}
+
+    chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: locLabels,
+        datasets: [{
+          data: locData,
+          backgroundColor: locColors,
+          borderWidth: 0,
+          hoverOffset: 10,
+          cutout: '80%',
+          spacing: 2
+        }]
+      },
+      options: {
+        responsive: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              pointStyle: 'circle',
+              padding: 16,
+              boxWidth: 18,
+              boxHeight: 18,
+              color: textColor,
+              font: { size: 14 }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label(ctx) {
+                const val = ctx.parsed;
+                return `${ctx.label}: ${val.toFixed(2)} GB`;
+              }
+            }
+          },
+          centerText: true
+        }
+      },
+      plugins: [centerTextPlugin]
     });
+  }
+
+  // بارگذاری اولیه
+  buildChart();
+
+  // رفرش خودکار در صورت تغییر تم
+  const observer = new MutationObserver(() => {
+    clearTimeout(observer._timeout);
+    observer._timeout = setTimeout(buildChart, 300);
   });
 
-  observer.observe(document.documentElement, { attributes: true });
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-bs-theme']
+  });
+});
 </script>
+
+
 
 
 
@@ -2926,7 +3061,7 @@
 
               const text = `${usedPercent}%`;
               const x = width / 2;
-              const y = height / 2 - 6;
+              const y = height / 2.25 ;
               ctx.fillText(text, x, y);
               ctx.save();
             }
@@ -2964,5 +3099,12 @@
     }));
   });
 </script>
+
+
+
+
+
+
+
 </body>
 </html>
