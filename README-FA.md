@@ -2,85 +2,117 @@
   
 ![Screenshot](tmp.png)
 
-# 📌 Customized User Page Template for Marzban Panel (Marzban Template)
+
+
+# 📌 قالب صفحه کاربری پنل مرزبان نسخه شخصی سازی شده (تمپلیت مرزبان) 
 </div>
 
-## 🎨 Introduction
 
-This project is a modified version of the original template from [Mrclocks/Pro-Subscription-Template](https://github.com/Mrclocks/Pro-Subscription-Template).
+## 🎨 معرفی
 
-> ⚠️ This is **not** the official version.
+<p dir="rtl">
+⚠️ این پروژه نسخه‌ی اصلی نیست و تغییر یافته‌ای از (https://github.com/Mrclocks/Pro-Subscription-Template) می‌باشد.
+</p>
 
-## ✅ Changes Made:
 
-🎨 Theme customization (new template design)  
-📊 Added user usage chart  
-📊 Added per-location usage chart  
-🧭 Display of days remaining next to the expiration date  
-🔋 Estimated time for usage depletion  
 
-📝 *Note: Some UI elements are still not fully translated. If you change the language, some parts may still remain in Persian. This will be fixed in future updates.*
+## ✅ تغییرات انجام‌شده:
 
----
+🎨 تغییر تم قالب (Template Theme)
 
-## 📥 Installation & Setup
+📊 افزودن نمودار مصرف کاربران (Usage Chart)
 
-### 1️⃣ Download the Template File
+📊 افزودن نمودار مصرف کاربر در هر لوکیشن (نود) (location usage)
+
+🧭 نمایش روزهای باقیمانده، کنار تاریخ (days left)
+
+🔋 تخمین زمان پایان حجم مصرفی (Usage End Time Estimation)
+
+
+📝 توجه: برخی بخش‌های رابط کاربری هنوز به‌طور کامل ترجمه نشده‌اند و ممکن است در صورت تغییر زبان، برخی قسمت‌ها همچنان فارسی باقی بمانند. این مورد در به‌روزرسانی‌های آینده برطرف خواهد شد.
+=
+
+</div>
+
+## 📥 نصب و راه‌اندازی
+
+<div>
+
+### 1️⃣ دانلود فایل قالب
+
+</div>
 
 ```bash
 sudo wget -N -P /var/lib/marzban/templates/subscription/ https://raw.githubusercontent.com/sarouk/Pro-Subscription-Template/main/index.html
 ```
 
-### 2️⃣ Configure Marzban Environment
+<div>
+
+### 2️⃣ ثبت تنظیمات در محیط مرزبان
+
+</div>
 
 ```bash
 echo 'CUSTOM_TEMPLATES_DIRECTORY="/var/lib/marzban/templates/"' | sudo tee -a /opt/marzban/.env
 echo 'SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"' | sudo tee -a /opt/marzban/.env
 ```
 
-### 📝 Alternative Method: Add Directly to `.env` File
+<div>
 
-Open the `.env` file located at `/opt/marzban/` and add the following lines:
+#### 📝 روش جایگزین: اضافه کردن مستقیم به فایل `.env`
+
+مقادیر زیر را مستقیماً در فایل `.env` واقع در `/opt/marzban/` اضافه کنید:
+
+</div>
 
 ```bash
 CUSTOM_TEMPLATES_DIRECTORY="/var/lib/marzban/templates/"
 SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"
 ```
 
-### 3️⃣ Restart Marzban
+<div>
+
+### 3️⃣ راه‌اندازی مجدد مرزبان
+
+</div>
 
 ```bash
 marzban restart
 ```
 
+<div>
+
+## 🔄 به‌روزرسانی قالب
+
+<div dir="rtl" align="right">
+  <p>برای دریافت آخرین نسخه قالب، کافیست مرحله اول (دانلود فایل قالب) را دوباره اجرا کنید.</p>
+
+
+<div dir="rtl" align="right">
+  <p> از برنامه هایی شبیه VS code برای ویرایش کد ها استفاده کنید. همچنین می‌توانید با استفاده از ابزارهای هوش مصنوعی مانند deepseek به راحتی بخش‌های مختلف را با سلیقه خود تغییر دهید. لازم به ذکر است بیشتر تغییرات صورت گرفته در این کد‌ها توسط هوش مصنوعی انجام شده است.</p>
+</div>
+
+
+### 🛠 تغییرات خاص در خطوط مشخص
+
+| خط    | توضیح تغییر             |
+|--------|--------------------------|
+| 894    | تغییر لوگو               |
+| 1750   | تغییر آدرس پشتیبانی      |
+
 ---
 
-## 🔄 Update the Template
-
-To get the latest version of the template, simply repeat **Step 1 (Download the Template File)**.
-
-> Use code editors like VS Code to modify the HTML as needed. You can also utilize AI tools like Deepseek to conveniently customize different sections of the code to your liking.  
-> Most of the modifications in this version were made using AI tools.
-
----
-
-### 🛠 Key Line Modifications
-
-| Line   | Description               |
-|--------|---------------------------|
-| 894    | Changed the logo          |
-| 1750   | Changed the support link  |
-
----
 
 <div align="center">
-  <p>🌟 If you like this project, please give it a star 🌟</p>
-
+  <p dir="rtl">🌟 اگر از این پروژه خوشتان آمد، لطفاً به آن ستاره دهید 🌟</p>
+  
   <p>
     <a href="https://github.com/sarouk/Pro-Subscription-Template">
-      <img src="https://img.shields.io/github/stars/sarouk/Pro-Subscription-Template?style=social" alt="GitHub Stars">
-    </a>
+      <img src="https://img.shields.io/github/stars/sarouk/Pro-Subscription-Template?style=social" alt="ستاره‌های گیت‌هاب">
   </p>
 
-  <img src="https://i.postimg.cc/xCdWMHhw/IMG-7600.gif" width="400"/>
-</div>
+
+<img src="https://i.postimg.cc/xCdWMHhw/IMG-7600.gif" width="400"/>
+
+
+  
