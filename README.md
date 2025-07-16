@@ -13,10 +13,14 @@ This project is a modified version of the original template from [Mrclocks/Pro-S
 
 ## ✅ Changes Made:
 
-🎨 Theme customization (new template design)  
+🎨 Theme customization (new template design)
+  
 📊 Added user usage chart  
+
 📊 Added per-location usage chart  
+
 🧭 Display of days remaining next to the expiration date  
+
 🔋 Estimated time for usage depletion  
 
 📝 *Note: Some UI elements are still not fully translated. If you change the language, some parts may still remain in Persian. This will be fixed in future updates.*
