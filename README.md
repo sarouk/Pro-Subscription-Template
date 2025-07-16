@@ -2,6 +2,10 @@
   
 ![Screenshot](tmp.png)
 
+
+📄 [Persian Version / نسخه فارسی](README-FA.md)
+
+
 # 📌 Customized User Page Template for Marzban Panel (Marzban Template)
 </div>
 
