@@ -882,7 +882,6 @@
   document.addEventListener('alpine:init', () => {
     window.app = {
       links: [
-        // نمونه کانفیگ‌ها، مقادیر واقعی را جایگزین کنید
         'vmess://example1',
         'vless://example2',
         'trojan://example3',
@@ -965,7 +964,9 @@
           unknown: 'نامشخص',
           remaining_time: 'زمان باقیمانده',
           remaining_traffic: 'ترافیک باقیمانده',
-          days_remaining: 'روز باقیمانده'
+          days_remaining: 'روز باقیمانده',
+          less_than_minute: '🟢 در حال استفاده',
+          active_now: '🟢 در حال استفاده'
         },
         en: {
           subscriptionInfo: 'Subscription Page',
@@ -1033,7 +1034,11 @@
           unknown: 'Unknown',
           remaining_time: 'Remaining Time',
           remaining_traffic: 'Remaining Traffic',
-          days_remaining: 'days remaining'
+          days_remaining: 'days remaining',
+          less_than_minute: '🟢 Active now',
+          active_now: '🟢 Active now'
+
+      
         }
       },
 
@@ -1132,59 +1137,62 @@
         }
       },
 
-       getTimeAgo(dateString) {
-        if (!dateString) {
-          return this.translations[this.currentLang].unknown;
-        }
-        
-        try {
-          const pastDate = new Date(dateString + 'Z');
-          const now = new Date();
-          
-          if (isNaN(pastDate.getTime())) {
-            return this.translations[this.currentLang].unknown;
-          }
-          
-          const diffInMs = now - pastDate;
-          const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-          
-          if (diffInMinutes < 1) {
-            return this.translations[this.currentLang].less_than_minute;
-          }
-          
-          const MINUTES_PER_HOUR = 60;
-          const HOURS_PER_DAY = 24;
-          
-          const days = Math.floor(diffInMinutes / (MINUTES_PER_HOUR * HOURS_PER_DAY));
-          const hours = Math.floor((diffInMinutes % (MINUTES_PER_HOUR * HOURS_PER_DAY)) / MINUTES_PER_HOUR);
-          const minutes = diffInMinutes % MINUTES_PER_HOUR;
-          
-          const parts = [];
-          
-          if (days > 0) {
-            const dayText = this.translations[this.currentLang].day;
-            const pluralSuffix = (days > 1 && this.currentLang === 'en') ? 's' : '';
-            parts.push(`${days} ${dayText}${pluralSuffix}`);
-          }
-          
-          if (hours > 0) {
-            const hourText = this.translations[this.currentLang].hour;
-            const pluralSuffix = (hours > 1 && this.currentLang === 'en') ? 's' : '';
-            parts.push(`${hours} ${hourText}${pluralSuffix}`);
-          }
-          
-          if (minutes > 0 && days === 0) {
-            const minuteText = this.translations[this.currentLang].minute;
-            const pluralSuffix = (minutes > 1 && this.currentLang === 'en') ? 's' : '';
-            parts.push(`${minutes} ${minuteText}${pluralSuffix}`);
-          }
-          
-          return `${parts.join(' ')} ${this.translations[this.currentLang].ago}`;
-        } catch (error) {
-          console.error('Error calculating time ago:', error);
-          return this.translations[this.currentLang].unknown;
-        }
-      },
+      getTimeAgo(dateString) {
+  if (!dateString) {
+    return this.translations[this.currentLang].unknown;
+  }
+
+  try {
+    const pastDate = new Date(dateString + 'Z'); // UTC-safe
+    const now = new Date();
+
+    if (isNaN(pastDate.getTime())) {
+      return this.translations[this.currentLang].unknown;
+    }
+
+    const diffInMs = now - pastDate;
+    const diffInSeconds = Math.floor(diffInMs / 1000);
+    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+
+    // ✅ حالت اتصال لحظه‌ای (کمتر از ۶۰ ثانیه)
+    if (diffInSeconds < 60) {
+      return this.translations[this.currentLang].active_now || '🟢 در حال استفاده';
+    }
+
+    const MINUTES_PER_HOUR = 60;
+    const HOURS_PER_DAY = 24;
+
+    const days = Math.floor(diffInMinutes / (MINUTES_PER_HOUR * HOURS_PER_DAY));
+    const hours = Math.floor((diffInMinutes % (MINUTES_PER_HOUR * HOURS_PER_DAY)) / MINUTES_PER_HOUR);
+    const minutes = diffInMinutes % MINUTES_PER_HOUR;
+
+    const parts = [];
+
+    if (days > 0) {
+      const dayText = this.translations[this.currentLang].day;
+      const pluralSuffix = (days > 1 && this.currentLang === 'en') ? 's' : '';
+      parts.push(`${days} ${dayText}${pluralSuffix}`);
+    }
+
+    if (hours > 0) {
+      const hourText = this.translations[this.currentLang].hour;
+      const pluralSuffix = (hours > 1 && this.currentLang === 'en') ? 's' : '';
+      parts.push(`${hours} ${hourText}${pluralSuffix}`);
+    }
+
+    if (minutes > 0 && days === 0) {
+      const minuteText = this.translations[this.currentLang].minute;
+      const pluralSuffix = (minutes > 1 && this.currentLang === 'en') ? 's' : '';
+      parts.push(`${minutes} ${minuteText}${pluralSuffix}`);
+    }
+
+    return `${parts.join(' ')} ${this.translations[this.currentLang].ago}`;
+  } catch (error) {
+    console.error('Error calculating time ago:', error);
+    return this.translations[this.currentLang].unknown;
+  }
+},
+
 
       init() {
         Alpine.store('app', this);
@@ -1218,6 +1226,12 @@
             }
           }
         }));
+
+
+
+
+
+
 
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
@@ -1392,7 +1406,6 @@
         const remainingTraffic = Math.max(0, dataLimit - usedTraffic);
         return `<span class="traffic-value">${this.formatBytes(remainingTraffic)}</span>`;
       },
-
       importApp(type) {
         const url = this.subscription_url;
         const username = '{{ user.username }}';
@@ -1574,14 +1587,6 @@
         </div>
         <h1 class="main-texts fw-bold mb-0" x-text="translations[currentLang].subscriptionInfo"></h1>
       </div>
-      
-
-
-
-
-
-
-      
       <div class="header-buttons-section">
         <button class="lang-toggle" @click="toggleLang">
           <svg class="bi"><use href="#translate"></use></svg>
@@ -1605,7 +1610,6 @@
         </button>
       </div>
     </div>
-
     <template x-if="guideMode === 'easy'">
       <section class="row g-3 mb-4">
         <!-- باکس جدید وضعیت کاربر (بالای همه باکس‌ها) -->
@@ -1634,13 +1638,6 @@
             </div>
           </article>
         </div>
-        
-
-
-
-
-
-        
         <div class="col-12 col-md-6">
           <article class="my-block" x-data="{
             usedTraffic: {{ user.used_traffic }},
@@ -1725,13 +1722,6 @@
             <p class="sub-texts text-truncate mb-0" x-text="getTimeAgo(lastOnline)"></p>
           </article>
         </div>
-      
-
-
-
-
-
-        
         <div class="col">
           <article class="my-block" x-data="favoriteLocationData">
             <h2 class="visually-hidden">لوکیشن پرمصرف</h2>
@@ -1755,11 +1745,6 @@
         </div>
       </section>
     </template>
-
-
-
-
-      
       <template x-if="guideMode === 'advanced'">
         <div class="w-100 d-flex gap-3">
           <a class="btn my-btn-outline flex-grow-1" href="https://t.me/sartch_shopbot" role="button" rel="noopener noreferrer" target="_blank">
@@ -1773,9 +1758,12 @@
         </div>
       </template>
     </nav>
-
-
-
+    <p></p>
+ <div class="my-block" x-data="trafficEstimator" style="flex: 1; min-width: 250px;">
+    <h3 class="box-texts mb-2">⏳ تخمین پایان حجم سرویس</h3>
+    <p class="sub-texts text-truncate mb-0" x-text="getEstimate()"></p>
+  </div>
+</div>
 <div class="row mt-4">
  
   <div class="col-md-6 mb-4">
@@ -2280,10 +2268,27 @@ usages.forEach(u => {
                                     <span class="app-texts" x-text="currentLang === 'fa' ? 'وی2ری‌' : 'V2rayNG'"></span>
                                   </div>
                                   <div class="config-link-buttons">
-                                    <a class="download-button app-texts" href="https://github.com/2dust/v2rayNG/releases/download/1.10.7/v2rayNG_1.10.7_universal.apk" role="button" rel="noopener noreferrer" target="_blank" @click="handleButtonFeedback($el, $el.innerHTML, `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`); setTimeout(() => window.open(https://github.com/2dust/v2rayNG/releases/download/1.10.7/v2rayNG_1.10.7_universal.apk', '_blank'), 300);">
-                                      <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
-                                      <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
-                                    </a>
+                                   <a
+  class="download-button app-texts"
+  href="https://github.com/2dust/v2rayNG/releases/download/1.10.7/v2rayNG_1.10.7_universal.apk"
+  role="button"
+  rel="noopener noreferrer"
+  target="_blank"
+  @click.prevent="
+    handleButtonFeedback(
+      $el,
+      $el.innerHTML,
+      `<svg class='bi' width='16' height='16'><use href='#cloud-check'></use></svg> <span>${translations[currentLang].start}</span>`
+    );
+    setTimeout(() => {
+      window.open('https://github.com/2dust/v2rayNG/releases/download/1.10.7/v2rayNG_1.10.7_universal.apk', '_blank');
+    }, 300);
+  "
+>
+  <svg class="bi" width="16" height="16"><use href="#cloud-arrow-down"></use></svg>
+  <span class="app-texts" x-text="translations[currentLang].download || 'دانلود'"></span>
+</a>
+
                                   </div>
                                 </div>
                                 <div class="config-link">
@@ -3099,12 +3104,92 @@ usages.forEach(u => {
     }));
   });
 </script>
+<script>
+document.addEventListener('alpine:init', () => {
+  Alpine.data('accountStartDate', () => ({
+    rawDate: '{{ user.created_at }}',
+    getFormattedStart() {
+      const date = new Date(this.rawDate);
+      if (isNaN(date.getTime())) return 'نامشخص';
+      return date.toLocaleDateString('fa-IR');
+    }
+  }));
+});
+</script>
+<script>
+document.addEventListener('alpine:init', () => {
+  Alpine.data('trafficEstimator', () => {
+    const total = Number({{ user.data_limit if user.data_limit else 0 }});
+    const used = Number({{ user.used_traffic if user.used_traffic else 0 }});
+    const startRaw = '{{ user.created_at }}';
+    const expireUnix = {{ user.expire if user.expire else 0 }};
+    const start = new Date(startRaw);
+    const expire = new Date(expireUnix * 1000);
 
+    return {
+      total,
+      used,
+      start: isNaN(start.getTime()) ? null : start,
+      expire: isNaN(expire.getTime()) ? null : expire,
 
+      getEstimate() {
+        const now = new Date();
 
+        // بررسی اطلاعات پایه
+        if (!this.start || !this.expire || this.total <= 0 || this.used < 0) {
+          return '🚫 اطلاعات کافی نیست';
+        }
 
+        // فقط ۳۰ روز اخیر بررسی شود
+        const maxWindow = 30 * 86400000;
+        const effectiveStart = new Date(Math.max(this.start.getTime(), now.getTime() - maxWindow));
+        const daysPassed = Math.floor((now - effectiveStart) / (1000 * 60 * 60 * 24));
 
+        // بررسی مصرف پایین یا مدت کوتاه
+        const percentUsed = this.used / this.total;
+        if (daysPassed < 1 || percentUsed < 0.01 || this.used < 100_000_000) {
+          return '🤏 مصرف کم؛ تخمینی نداریم';
+        }
 
+        // میانگین مصرف روزانه
+        const dailyAvg = this.used / daysPassed;
+        if (!isFinite(dailyAvg) || dailyAvg <= 0) {
+          return '🤏 مصرف کم؛ تخمینی نداریم';
+        }
 
+        const remaining = this.total - this.used;
+        if (remaining <= 0) {
+          return '❌ حجم شما تمام شده';
+        }
+
+        const daysLeftByUsage = Math.ceil(remaining / dailyAvg);
+        const daysLeftByTime = Math.ceil((this.expire - now) / (1000 * 60 * 60 * 24));
+        const finalDays = Math.min(daysLeftByUsage, daysLeftByTime);
+        const finalDate = new Date(now.getTime() + finalDays * 86400000);
+        const formattedDate = finalDate.toLocaleDateString('fa-IR');
+
+        // اگر حجم تا پایان اعتبار کافیه، نیازی به هشدار نیست
+        if (daysLeftByUsage >= daysLeftByTime) {
+          return `🟢 حجم تا پایان اعتبار قابل استفاده‌ست`;
+        }
+
+        // اگر حجم قبل از اعتبار تمام می‌شه
+        return `⏳ احتمال اتمام تا ${formattedDate} (${finalDays} روز باقی‌مانده)`;
+      }
+    };
+  });
+});
+</script>
+<div class="modal fade" id="qr-modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered qr-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="my-text-heading">QR Code</h3>
+        <button type="button" class="modal-close-btn" data-bs-dismiss="modal">بستن</button>
+      </div>
+      <div class="modal-body" id="qr-canvas"></div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
