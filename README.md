@@ -28,7 +28,9 @@ This project is a modified version of the original template from [Mrclocks/Pro-S
 🔋 Estimated time for usage depletion  
 
 📝 *Note: Some UI elements are still not fully translated. If you change the language, some parts may still remain in Persian. This will be fixed in future updates.*
-
+---
+Join my Telegram channel:  
+👉 [t.me/sarouk_git](https://t.me/sarouk_git)
 ---
 
 ## 📥 Installation & Setup
